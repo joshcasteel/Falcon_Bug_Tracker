@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Falcon_Bug_Tracker.ViewModel.CustomUserData>
+
+
+
+@using (Html.BeginForm("AddUserToRole", "Admin", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.Label("Users", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.ListBox("UserIds", null, htmlAttributes: new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.Label("Roles", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("RoleName", null, htmlAttributes: new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <button type="submit" class="btn btn-primary">Assign</button>
+        </div>
+    </div>
+}
+<br />
+
+<div class="row">
+    <div class="col text-center">
+        <table class="table data-table">
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Remove Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(model => user.FullName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => user.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => user.RoleName)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Remove", "RemoveUserFromRole", new { userId = user.UserId, roleName = user.RoleName })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

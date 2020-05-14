@@ -1,0 +1,104 @@
+﻿@using Falcon_Bug_Tracker.Models
+@model ExtendedRegisterViewModel
+@(Layout = null)
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Log In | Casteel Issue Tracker</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta content="A fully featured issue tracker built on .NET MVC 5" name="description" />
+        <meta content="Bug Tracker" name="Josh Casteel" />
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="~/Images/favicon.png">
+
+        <!-- App css -->
+        <link href="~/Content/icons.min.css" rel="stylesheet" />
+        <link href="~/Content/app.min.css" rel="stylesheet" />
+
+
+    </head>
+
+    <body class="loading authentication-bg">
+
+        <div class="account-pages mt-5 mb-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5">
+                        <div class="card">
+                            <!-- Logo-->
+                            <div class="card-header pt-4 pb-4 text-center bg-primary">
+                                <a href="index.html">
+                                    <span><img src="assets/images/logo.png" alt="" height="18"></span>
+                                </a>
+                            </div>
+
+                            <div class="card-body p-4">
+
+                                <div class="text-center w-75 m-auto">
+                                    <h4 class="text-dark-50 text-center mt-0 font-weight-bold">Free Sign Up</h4>
+                                    <p class="text-muted mb-4">Don't have an account? Create your account, it takes less than a minute </p>
+                                </div>
+
+                                @using (Html.BeginForm("Register", "Account", FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.FirstName)
+                                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", placeholder = "Enter your first name" })
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.LastName)
+                                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", placeholder = "Enter your last name" })
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Email)
+                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Enter your email" })
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Password)
+                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Enter your password" })
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.ConfirmPassword)
+                                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm your password" })
+                                    </div>
+
+                                    <div class="form-group mb-0 pt-2 text-center">
+                                        <button class="btn btn-primary" type="submit"> Sign Up </button>
+                                    </div>
+                                }
+                            </div> <!-- end card-body -->
+                        </div>
+                        <!-- end card -->
+
+                        <div class="row mt-3">
+                            <div class="col-12 text-center">
+                                <p class="text-muted">Already have account? <a href="@Url.Action("Index", "Home")" class="text-muted ml-1"><b>Log In</b></a></p>
+                            </div> <!-- end col-->
+                        </div>
+                        <!-- end row -->
+
+                    </div> <!-- end col -->
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- end container -->
+        </div>
+        <!-- end page -->
+
+        <footer class="footer footer-alt">
+            @DateTime.Now.Year © Josh Casteel
+        </footer>
+
+        <!-- bundle -->
+        <script src="~/Scripts/vendor.min.js"></script>
+        <script src="~/Scripts/app.min.js"></script>
+
+    </body>
+</html>

@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Falcon_Bug_Tracker.ViewModel.CustomUserData>
+@{
+    ViewBag.Title = "ManageProjectAssignments";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.Label("Users", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.ListBox("UserIds", null, htmlAttributes: new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.Label("Projects", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.ListBox("ProjectIds", null, htmlAttributes: new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <button type="submit" class="btn btn-primary">Assign</button>
+        </div>
+    </div>
+}
+<br />
+
+<div class="row">
+    <div class="col text-center">
+        <table class="table data-table">
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Project</th>
+                    <th>Remove Project</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(model => user.FullName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => user.Email)
+                        </td>
+                        <td>
+                            @foreach (var projectName in user.ProjectNames)
+                            {
+                                @projectName
+                                <br />
+                            }
+                        </td>
+                        <td>
+                            @foreach (var projId in user.ProjectIds)
+                            {
+                                @Html.ActionLink("Remove", "RemoveUserFromProject", new { userId = user.UserId, projectId = projId })
+                                <br />
+                            }
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

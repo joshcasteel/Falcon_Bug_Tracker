@@ -1,0 +1,285 @@
+﻿@using Microsoft.AspNet.Identity
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Casteel Issue Tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="An issue tracker that takes the initiative" name="description" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="~/Images/favicon.png">
+
+    <!-- App css -->
+    <link href="~/Content/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/app.min.css" rel="stylesheet" type="text/css" id="light-style" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+
+</head>
+<body class="loading">
+    >
+    <!-- Begin page -->
+    <div class="wrapper">
+        <!-- ========== Left Sidebar Start ========== -->
+        <div class="left-side-menu">
+
+            <!-- LOGO -->
+            <a href="#" class="logo text-center logo-light">
+                <span class="logo-lg">
+                    <img src="~/assets/images/logo.png" alt="" height="16">
+                </span>
+                <span class="logo-sm">
+                    <img src="~/assets/images/logo_sm.png" alt="" height="16">
+                </span>
+            </a>
+
+            <div class="h-100" id="left-side-menu-container" data-simplebar>
+
+                <!--- Sidemenu -->
+                <ul class="metismenu side-nav">
+
+                    <li class="side-nav-title side-nav-item">Navigation</li>
+
+                    <li class="side-nav-item">
+                        <a href="javascript: void(0);" class="side-nav-link">
+                            <i class="uil-home-alt"></i>
+                            <span class="badge badge-success float-right">4</span>
+                            <span> Dashboards </span>
+                        </a>
+                        <ul class="side-nav-second-level" aria-expanded="false">
+                            <li>
+                                <a href="@Url.Action("Dashboard4", "Home")">Analytics</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Dashboard3", "Home")">CRM</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Dashboard2", "Home")">Ecommerce</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Dashboard", "Home")">Projects</a>
+                            </li>
+                        </ul>
+                    </li>
+                    @if (User.IsInRole("ProjectManager") || User.IsInRole("Admin"))
+                    {
+                        <li class="side-nav-item">
+                            <a href="@Url.Action("ManageProjectAssignments", "Projects")" class="side-nav-link">
+                                <i class="uil-paperclip"></i>
+                                <span> Project Assignments </span>
+                            </a>
+                        </li>
+                    }
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="side-nav-item">
+                            <a href="@Url.Action("ManageRoles", "Admin")" class="side-nav-link">
+                                <i class="uil-calender"></i>
+                                <span> Manage Roles </span>
+                            </a>
+                        </li>
+                    }
+                    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                    {
+                        <li class="side-nav-item">
+                            <a href="@Url.Action("Create", "Projects")" class="side-nav-link">
+                                <i class="uil-calender"></i>
+                                <span> Create Project </span>
+                            </a>
+                        </li>
+                    }
+                    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                    {
+                        <li class="side-nav-item">
+                            <a href="@Url.Action("Index", "Projects")" class="side-nav-link">
+                                <i class="uil-calender"></i>
+                                <span> List Projects </span>
+                            </a>
+                        </li>
+                    }
+                    @if (User.IsInRole("Admin") || User.IsInRole("Submitter"))
+                    {
+                        <li class="side-nav-item">
+                            <a href="@Url.Action("Create", "Tickets")" class="side-nav-link">
+                                <i class="uil-calender"></i>
+                                <span> Create Ticket </span>
+                            </a>
+                        </li>
+                    }
+                    <li class="side-nav-item">
+                        <a href="@Url.Action("Index", "Tickets")" class="side-nav-link">
+                            <i class="uil-calender"></i>
+                            <span> View All Tickets </span>
+                        </a>
+                    </li>
+            </div>
+            <!-- Sidebar -left -->
+
+        </div>
+        <!-- Left Sidebar End -->
+        <!-- ============================================================== -->
+        <div class="content-page">
+            <div class="content">
+                <!-- Topbar Start -->
+                <div class="navbar-custom">
+                    <ul class="list-unstyled topbar-right-menu float-right mb-0">
+                        <li class="dropdown notification-list">
+                            <a class="nav-link dropdown-toggle arrow-none" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                <i class="dripicons-bell noti-icon"></i>
+                                <span class="noti-icon-badge"></span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated dropdown-lg">
+
+                                <!-- item-->
+                                <div class="dropdown-item noti-title">
+                                    <h5 class="m-0">
+                                        <span class="float-right">
+                                            <a href="javascript: void(0);" class="text-dark">
+                                                <small>Clear All</small>
+                                            </a>
+                                        </span>Notification
+                                    </h5>
+                                </div>
+
+                                <div style="max-height: 230px;" data-simplebar>
+                                    <!-- item-->
+                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                        <div class="notify-icon bg-primary">
+                                            <i class="mdi mdi-comment-account-outline"></i>
+                                        </div>
+                                        <p class="notify-details">
+                                            Caleb Flakelar commented on Admin
+                                            <small class="text-muted">1 min ago</small>
+                                        </p>
+                                    </a>
+
+                                    <!-- item-->
+                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                        <div class="notify-icon bg-info">
+                                            <i class="mdi mdi-account-plus"></i>
+                                        </div>
+                                        <p class="notify-details">
+                                            New user registered.
+                                            <small class="text-muted">5 hours ago</small>
+                                        </p>
+                                    </a>
+
+                                    <!-- item-->
+                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                        <div class="notify-icon">
+                                            <img src="~/Images/avatar_default.png" class="img-fluid rounded-circle" alt="" />
+                                        </div>
+                                        <p class="notify-details">Cristina Pride</p>
+                                        <p class="text-muted mb-0 user-msg">
+                                            <small>Hi, How are you? What about our next meeting</small>
+                                        </p>
+                                    </a>
+
+                                    <!-- item-->
+                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                        <div class="notify-icon bg-primary">
+                                            <i class="mdi mdi-comment-account-outline"></i>
+                                        </div>
+                                        <p class="notify-details">
+                                            Caleb Flakelar commented on Admin
+                                            <small class="text-muted">4 days ago</small>
+                                        </p>
+                                    </a>
+
+                                    <!-- item-->
+                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                        <div class="notify-icon">
+                                            <img src="~/Images/avatar_default.png" class="img-fluid rounded-circle" alt="" />
+                                        </div>
+                                        <p class="notify-details">Karen Robinson</p>
+                                        <p class="text-muted mb-0 user-msg">
+                                            <small>Wow ! this admin looks good and awesome design</small>
+                                        </p>
+                                    </a>
+
+                                    <!-- item-->
+                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                        <div class="notify-icon bg-info">
+                                            <i class="mdi mdi-heart"></i>
+                                        </div>
+                                        <p class="notify-details">
+                                            Carlos Crouch liked
+                                            <b>Admin</b>
+                                            <small class="text-muted">13 days ago</small>
+                                        </p>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+
+                        @Html.Action("_LoginPartial", "Home")
+                    </ul>
+
+                    <button class="button-menu-mobile open-left disable-btn">
+                        <i class="mdi mdi-menu"></i>
+                    </button>
+                    <div class="app-search">
+                        <form>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <span class="mdi mdi-magnify"></span>
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit">Search</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- end Topbar -->
+
+
+
+
+                @RenderBody()
+
+
+            </div> <!-- content -->
+
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+
+
+    </div>
+    <!-- END wrapper -->
+    <!-- Right Sidebar -->
+    <!-- Footer Start -->
+    <script src="~/Scripts/vendor.min.js"></script>
+    <script src="~/Scripts/app.min.js"></script>
+    <script src="~/Scripts/Chart.bundle.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.data-table').DataTable();
+        });
+    </script>
+    
+
+</body>
+<footer class="footer">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                @DateTime.Now.Year © Josh Casteel
+            </div>
+            <div class="col-md-6">
+                <div class="text-md-right footer-links d-none d-md-block">
+                    <a href="javascript: void(0);">About</a>
+                    <a href="javascript: void(0);">Support</a>
+                    <a href="javascript: void(0);">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- end Footer -->
+</html>

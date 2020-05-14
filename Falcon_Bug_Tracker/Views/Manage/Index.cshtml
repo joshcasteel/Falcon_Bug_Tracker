@@ -1,0 +1,311 @@
+﻿@using Microsoft.AspNet.Identity
+@model Falcon_Bug_Tracker.ViewModel.CustomUserData
+
+
+
+<div class="content">
+    <!-- Start Content-->
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <h4 class="page-title">Profile</h4>
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+
+        
+        <div class="row">
+            <div class="col-lg-4">
+                <!-- Personal-Information -->
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title mt-0 mb-3">Profile Info</h4>
+                        <hr />
+                        <div class="text-left">
+                            <p class="text-muted"><strong>Full Name :</strong> <span class="ml-2">@Model.FullName</span></p>
+
+                            <p class="text-muted"><strong>Role :</strong><span class="ml-2">@Model.RoleName</span></p>
+
+                            <p class="text-muted"><strong>Email :</strong> <span class="ml-2">@Model.Email</span></p>
+
+                            <div class="text-center mt-sm-0 mt-3 pt-2">
+                                <a href="@Url.Action("EditProfile", "Manage")">
+                                    <button type="button" class="btn btn-light">
+                                        <i class="mdi mdi-account-edit mr-1"></i> Edit Profile
+                                    </button>
+                                </a>
+                                <a href="@Url.Action("ChangePassword", "Manage")">
+                                    <button type="button" class="btn btn-light">
+                                        <i class="mdi mdi-account-settings mr-1"></i> Change Password
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Personal-Information -->
+                <!-- Toll free number box-->
+                <div class="card text-white bg-info overflow-hidden">
+                    <div class="card-body">
+                        <div class="toll-free-box text-center">
+                            <h4> <i class="mdi mdi-deskphone"></i> Toll Free : 1-234-567-8901</h4>
+                        </div>
+                    </div> <!-- end card-body-->
+                </div> <!-- end card-->
+                <!-- End Toll free number box-->
+                <!-- Messages-->
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title mb-3">Messages</h4>
+
+                        <div class="inbox-widget">
+                            <div class="inbox-item">
+                                <div class="inbox-item-img"><img src="assets/images/users/avatar-2.jpg" class="rounded-circle" alt=""></div>
+                                <p class="inbox-item-author">Tomaslau</p>
+                                <p class="inbox-item-text">I've finished it! See you so...</p>
+                                <p class="inbox-item-date">
+                                    <a href="#" class="btn btn-sm btn-link text-info font-13"> Reply </a>
+                                </p>
+                            </div>
+                            <div class="inbox-item">
+                                <div class="inbox-item-img"><img src="assets/images/users/avatar-3.jpg" class="rounded-circle" alt=""></div>
+                                <p class="inbox-item-author">Stillnotdavid</p>
+                                <p class="inbox-item-text">This theme is awesome!</p>
+                                <p class="inbox-item-date">
+                                    <a href="#" class="btn btn-sm btn-link text-info font-13"> Reply </a>
+                                </p>
+                            </div>
+                            <div class="inbox-item">
+                                <div class="inbox-item-img"><img src="assets/images/users/avatar-4.jpg" class="rounded-circle" alt=""></div>
+                                <p class="inbox-item-author">Kurafire</p>
+                                <p class="inbox-item-text">Nice to meet you</p>
+                                <p class="inbox-item-date">
+                                    <a href="#" class="btn btn-sm btn-link text-info font-13"> Reply </a>
+                                </p>
+                            </div>
+
+                            <div class="inbox-item">
+                                <div class="inbox-item-img"><img src="assets/images/users/avatar-5.jpg" class="rounded-circle" alt=""></div>
+                                <p class="inbox-item-author">Shahedk</p>
+                                <p class="inbox-item-text">Hey! there I'm available...</p>
+                                <p class="inbox-item-date">
+                                    <a href="#" class="btn btn-sm btn-link text-info font-13"> Reply </a>
+                                </p>
+                            </div>
+                            <div class="inbox-item">
+                                <div class="inbox-item-img"><img src="assets/images/users/avatar-6.jpg" class="rounded-circle" alt=""></div>
+                                <p class="inbox-item-author">Adhamdannaway</p>
+                                <p class="inbox-item-text">This theme is awesome!</p>
+                                <p class="inbox-item-date">
+                                    <a href="#" class="btn btn-sm btn-link text-info font-13"> Reply </a>
+                                </p>
+                            </div>
+                        </div> <!-- end inbox-widget -->
+                    </div> <!-- end card-body-->
+                </div> <!-- end card-->
+
+            </div> <!-- end col-->
+
+            <div class="col-lg-8">
+
+                <!-- Chart-->
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title mb-3">Orders & Revenue</h4>
+                        <div style="height: 260px;" class="chartjs-chart">
+                            <canvas id="high-performing-product"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Chart-->
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="card tilebox-one">
+                            <div class="card-body">
+                                <i class="dripicons-basket float-right text-muted"></i>
+                                <h6 class="text-muted text-uppercase mt-0">Orders</h6>
+                                <h2 class="m-b-20">1,587</h2>
+                                <span class="badge badge-primary"> +11% </span> <span class="text-muted">From previous period</span>
+                            </div> <!-- end card-body-->
+                        </div> <!--end card-->
+                    </div><!-- end col -->
+
+                    <div class="col-sm-4">
+                        <div class="card tilebox-one">
+                            <div class="card-body">
+                                <i class="dripicons-box float-right text-muted"></i>
+                                <h6 class="text-muted text-uppercase mt-0">Revenue</h6>
+                                <h2 class="m-b-20">$<span>46,782</span></h2>
+                                <span class="badge badge-danger"> -29% </span> <span class="text-muted">From previous period</span>
+                            </div> <!-- end card-body-->
+                        </div> <!--end card-->
+                    </div><!-- end col -->
+
+                    <div class="col-sm-4">
+                        <div class="card tilebox-one">
+                            <div class="card-body">
+                                <i class="dripicons-jewel float-right text-muted"></i>
+                                <h6 class="text-muted text-uppercase mt-0">Product Sold</h6>
+                                <h2 class="m-b-20">1,890</h2>
+                                <span class="badge badge-primary"> +89% </span> <span class="text-muted">Last year</span>
+                            </div> <!-- end card-body-->
+                        </div> <!--end card-->
+                    </div><!-- end col -->
+
+                </div>
+                <!-- end row -->
+
+
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title mb-3">My Products</h4>
+
+                        <div class="table-responsive">
+                            <table class="table table-hover table-centered mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Price</th>
+                                        <th>Stock</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>ASOS Ridley High Waist</td>
+                                        <td>$79.49</td>
+                                        <td><span class="badge badge-primary">82 Pcs</span></td>
+                                        <td>$6,518.18</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Marco Lightweight Shirt</td>
+                                        <td>$128.50</td>
+                                        <td><span class="badge badge-primary">37 Pcs</span></td>
+                                        <td>$4,754.50</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Half Sleeve Shirt</td>
+                                        <td>$39.99</td>
+                                        <td><span class="badge badge-primary">64 Pcs</span></td>
+                                        <td>$2,559.36</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Lightweight Jacket</td>
+                                        <td>$20.00</td>
+                                        <td><span class="badge badge-primary">184 Pcs</span></td>
+                                        <td>$3,680.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Marco Shoes</td>
+                                        <td>$28.49</td>
+                                        <td><span class="badge badge-primary">69 Pcs</span></td>
+                                        <td>$1,965.81</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div> <!-- end table responsive-->
+                    </div> <!-- end col-->
+                </div> <!-- end row-->
+
+            </div>
+            <!-- end col -->
+
+        </div>
+        <!-- end row -->
+
+    </div> <!-- container -->
+
+</div> <!-- content -->
+<!-- ============================================================== -->
+<!-- End Page content -->
+<!-- ============================================================== -->
+<!-- END wrapper -->
+<!-- bundle -->
+<!-- third party js ends -->
+@*<h2>@ViewBag.Title.</h2>
+
+    <p class="text-success">@ViewBag.StatusMessage</p>
+    <div>
+        <h4>Change your account settings</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>Password:</dt>
+            <dd>
+                [
+                @if (Model.HasPassword)
+                {
+                    @Html.ActionLink("Change your password", "ChangePassword")
+                }
+                else
+                {
+                    @Html.ActionLink("Create", "SetPassword")
+                }
+                ]
+            </dd>
+            <dt>External Logins:</dt>
+            <dd>
+                @Model.Logins.Count [
+                @Html.ActionLink("Manage", "ManageLogins") ]
+            </dd>*@
+@*
+    Phone Numbers can used as a second factor of verification in a two-factor authentication system.
+
+     See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
+        for details on setting up this ASP.NET application to support two-factor authentication using SMS.
+
+     Uncomment the following block after you have set up two-factor authentication
+*@
+@*
+    <dt>Phone Number:</dt>
+    <dd>
+        @(Model.PhoneNumber ?? "None")
+        @if (Model.PhoneNumber != null)
+        {
+            <br />
+            <text>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</text>
+            using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <text>[<input type="submit" value="Remove" class="btn-link" />]</text>
+            }
+        }
+        else
+        {
+            <text>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")
+        }
+    </dd>
+*@
+@*<dt>Two-Factor Authentication:</dt>
+    <dd>
+        <p>
+            There are no two-factor authentication providers configured. See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
+            for details on setting up this ASP.NET application to support two-factor authentication.
+        </p>*@
+@*@if (Model.TwoFactor)
+    {
+        using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <text>Enabled
+            <input type="submit" value="Disable" class="btn btn-link" />
+            </text>
+        }
+    }
+    else
+    {
+        using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <text>Disabled
+            <input type="submit" value="Enable" class="btn btn-link" />
+            </text>
+        }
+    }*@
+@*</dd>
+        </dl>
+    </div>*@
