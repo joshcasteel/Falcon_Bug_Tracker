@@ -11,10 +11,15 @@
     <!-- App favicon -->
     <link rel="shortcut icon" href="~/Images/favicon.png">
 
+    <!--3rd party css-->
+    <link href="~/Content/dataTables.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/responsive.bootstrap4.css" rel="stylesheet" />
+    
+
     <!-- App css -->
     <link href="~/Content/icons.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/app.min.css" rel="stylesheet" type="text/css" id="light-style" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+
 
 </head>
 <body class="loading">
@@ -57,7 +62,26 @@
                             <li>
                                 <a href="@Url.Action("Dashboard2", "Home")">Users</a>
                             </li>
-                            
+
+                        </ul>
+                    </li>
+                    <li class="side-nav-item">
+                        <a href="javascript: void(0);" class="side-nav-link">
+                            <i class="uil-home-alt"></i>
+                            <span class="badge badge-success float-right">4</span>
+                            <span> Projects </span>
+                        </a>
+                        <ul class="side-nav-second-level" aria-expanded="false">
+                            <li>
+                                <a href="@Url.Action("Index", "Projects")">View Projects</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Create", "Projects")">Tickets</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Assign", "ManageProjectAssignments")">Users</a>
+                            </li>
+
                         </ul>
                     </li>
                     @if (User.IsInRole("ProjectManager") || User.IsInRole("Admin"))
@@ -250,17 +274,20 @@
     <!-- END wrapper -->
     <!-- Right Sidebar -->
     <!-- Footer Start -->
+
+
     <script src="~/Scripts/vendor.min.js"></script>
     <script src="~/Scripts/app.min.js"></script>
     <script src="~/Scripts/Chart.bundle.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            $('.data-table').DataTable();
-        });
-    </script>
     
+
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/dataTables.bootstrap4.js"></script>
+    <script src="~/Scripts/dataTables.responsive.min.js"></script>
+    <script src="~/Scripts/responsive.bootstrap4.min.js"></script>
+   
+    <script src="~/Scripts/demo.datatable-init.js"></script>
+
 
 </body>
 <footer class="footer">

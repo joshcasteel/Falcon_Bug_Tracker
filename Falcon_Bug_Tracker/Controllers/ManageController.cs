@@ -72,7 +72,7 @@ namespace Falcon_Bug_Tracker.Controllers
             var userId = User.Identity.GetUserId();
             var roleData = userRoleHelper.ListUserRoles(userId);
             var user = db.Users.Find(userId);
-            var viewData = new CustomUserData();
+            var viewData = new UserInfoVM();
             viewData.FullName = user.FullName;
             viewData.Email = user.Email;
             viewData.RoleName = roleData.FirstOrDefault();

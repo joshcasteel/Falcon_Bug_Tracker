@@ -8,9 +8,11 @@ using System.Security.Cryptography;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Web.UI.WebControls;
 using Falcon_Bug_Tracker.Helpers;
 using Falcon_Bug_Tracker.Models;
 using Falcon_Bug_Tracker.ViewModel;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 
 
@@ -26,7 +28,7 @@ namespace Falcon_Bug_Tracker.Controllers
         [Authorize(Roles = "ProjectManager,Admin")]
         public ActionResult ManageProjectAssignments()
         {
-            var customUserDataList = new List<CustomUserData>();
+            var customUserDataList = new List<UserInfoVM>();
             var users = db.Users.ToList();
             
             
@@ -35,7 +37,7 @@ namespace Falcon_Bug_Tracker.Controllers
 
             foreach(var user in users)
             {
-                customUserDataList.Add(new CustomUserData
+                customUserDataList.Add(new UserInfoVM
                 {
                     UserId = user.Id,
                     FullName = user.FullName,
@@ -75,7 +77,18 @@ namespace Falcon_Bug_Tracker.Controllers
         // GET: Projects
         public ActionResult Index()
         {
-            return View(db.Projects.ToList());
+            ProjectIndexVM projectIndex = new ProjectIndexVM();
+            projectIndex.AllProjects = db.Projects.ToList();
+            foreach (var project in projectIndex.AllProjects)
+            {
+                if (project.ProjectManagerId != null)
+                {
+                    string fullName = db.Users.Find(project.ProjectManagerId).FullName;
+                    project.ProjectManagerId = fullName;
+                }
+            }
+
+            return View(projectIndex);
         }
 
         // GET: Projects/Details/5
@@ -131,7 +144,7 @@ namespace Falcon_Bug_Tracker.Controllers
             {
                 return HttpNotFound();
             }
-            var projectInfo = new ProjectInfo();
+            var projectInfo = new ProjectEditVM();
             projectInfo.Project = project;
             var pmUsers= userHelper.UsersInRole("ProjectManager");
             projectInfo.ProjectManagers = new SelectList(pmUsers, "Id", "FullName");
@@ -144,7 +157,7 @@ namespace Falcon_Bug_Tracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(ProjectInfo model, string projectManagerId)
+        public ActionResult Edit(ProjectEditVM model, string projectManagerId)
         {
             Project project = db.Projects.Find(model.Project.Id);
             if (ModelState.IsValid)
@@ -152,7 +165,7 @@ namespace Falcon_Bug_Tracker.Controllers
                 project.Name = model.Project.Name;
                 project.Description = model.Project.Description;
                 project.ProjectManagerId = projectManagerId;
-               
+                project.IsArchived = model.Project.IsArchived;
                 project.Updated = DateTime.Now;
                 db.SaveChanges();
                 return RedirectToAction("Index");

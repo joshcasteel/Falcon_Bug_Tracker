@@ -35,7 +35,7 @@ namespace Falcon_Bug_Tracker.Controllers
             var userId = User.Identity.GetUserId();
             var user = db.Users.Find(userId);
             var role = rolesHelper.ListUserRoles(userId).FirstOrDefault();
-            CustomUserData userData = new CustomUserData();
+            UserInfoVM userData = new UserInfoVM();
             userData.FullName = user.FullName;
             userData.RoleName = role;
 

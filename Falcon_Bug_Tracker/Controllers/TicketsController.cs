@@ -100,7 +100,7 @@ namespace Falcon_Bug_Tracker.Controllers
             //ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusId);
             //ViewBag.SubmitterId = new SelectList(db.Users, "Id", "FullName", ticket.SubmitterId);
             //ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
-            CustomTicketInfo editTicketData = new CustomTicketInfo();
+            TicketInfoVM editTicketData = new TicketInfoVM();
 
             editTicketData.Title = ticket.Title;
             editTicketData.Description = ticket.Description;

@@ -18,11 +18,11 @@ namespace Falcon_Bug_Tracker.Controllers
         // GET: Admin
         public ActionResult ManageRoles()
         {
-            var viewData = new List<CustomUserData>();
+            var viewData = new List<UserInfoVM>();
             var users = db.Users.ToList();
             foreach (var user in users)
             {
-                viewData.Add(new CustomUserData
+                viewData.Add(new UserInfoVM
                 {
                     UserId = user.Id,
                     FullName = user.FullName,

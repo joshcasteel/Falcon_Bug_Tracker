@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Falcon_Bug_Tracker.ViewModel
 {
-    public class CustomUserData
+    public class UserInfoVM
     {
         public string UserId { get; set; }
         public string FullName { get; set; }

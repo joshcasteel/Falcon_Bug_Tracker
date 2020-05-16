@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace Falcon_Bug_Tracker.ViewModel
 {
-    public class CustomTicketInfo
+    public class TicketInfoVM
     {
         public SelectList Developer { get; set; }
         

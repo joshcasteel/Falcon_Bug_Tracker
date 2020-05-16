@@ -1,4 +1,4 @@
-﻿@model Falcon_Bug_Tracker.ViewModel.ProjectInfo
+﻿@model Falcon_Bug_Tracker.ViewModel.ProjectEditVM
 
 @{
     ViewBag.Title = "Edit";
@@ -20,7 +20,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Project.Name, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Project.Name, new { htmlAttributes = new { @class = "form-control", id = "name", name = "name" } })
+            @Html.EditorFor(model => model.Project.Name, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Project.Name, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -28,7 +28,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Project.Description, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Project.Description, new { htmlAttributes = new { @class = "form-control", id = "description", name = "description" } })
+            @Html.EditorFor(model => model.Project.Description, new { htmlAttributes = new { @class = "form-control"} })
             @Html.ValidationMessageFor(model => model.Project.Description, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -36,7 +36,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.ProjectManagers, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownListFor(model => model.ProjectManagerId, Model.ProjectManagers, "Select a Project Manager")
+            @Html.DropDownListFor(model => model.ProjectManagerId, Model.ProjectManagers, "Select a Project Manager", new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.ProjectManagers, "", new { @class = "text-danger" })
         </div>
     </div>
