@@ -14,12 +14,14 @@ using Falcon_Bug_Tracker.ViewModel;
 using Microsoft.AspNet.Identity;
 
 
+
 namespace Falcon_Bug_Tracker.Controllers
 {
     public class ProjectsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private ProjectsHelper projHelper = new ProjectsHelper();
+        private UserRolesHelper userHelper = new UserRolesHelper();
 
         [Authorize(Roles = "ProjectManager,Admin")]
         public ActionResult ManageProjectAssignments()
@@ -129,8 +131,12 @@ namespace Falcon_Bug_Tracker.Controllers
             {
                 return HttpNotFound();
             }
+            var projectInfo = new ProjectInfo();
+            projectInfo.Project = project;
+            var pmUsers= userHelper.UsersInRole("ProjectManager");
+            projectInfo.ProjectManagers = new SelectList(pmUsers, "Id", "FullName");
 
-            return View(project);
+            return View(projectInfo);
         }
 
         // POST: Projects/Edit/5
@@ -138,13 +144,15 @@ namespace Falcon_Bug_Tracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(string name, string description, bool isArchived, Project project)
+        public ActionResult Edit(ProjectInfo model, string projectManagerId)
         {
+            Project project = db.Projects.Find(model.Project.Id);
             if (ModelState.IsValid)
             {
-                project.Name = name;
-                project.Description = description;
-                project.IsArchived = isArchived;
+                project.Name = model.Project.Name;
+                project.Description = model.Project.Description;
+                project.ProjectManagerId = projectManagerId;
+               
                 project.Updated = DateTime.Now;
                 db.SaveChanges();
                 return RedirectToAction("Index");

@@ -1,4 +1,4 @@
-﻿@model Falcon_Bug_Tracker.Models.Project
+﻿@model Falcon_Bug_Tracker.ViewModel.ProjectInfo
 
 @{
     ViewBag.Title = "Edit";
@@ -15,29 +15,29 @@
     <h4>Project</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.Project.Id)
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Project.Name, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.Project.Name, new { htmlAttributes = new { @class = "form-control", id = "name", name = "name" } })
+            @Html.ValidationMessageFor(model => model.Project.Name, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Project.Description, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.Project.Description, new { htmlAttributes = new { @class = "form-control", id = "description", name = "description" } })
+            @Html.ValidationMessageFor(model => model.Project.Description, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.ProjectManagerId, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.ProjectManagers, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.ProjectManagerId, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.ProjectManagerId, "", new { @class = "text-danger" })
+            @Html.DropDownListFor(model => model.ProjectManagerId, Model.ProjectManagers, "Select a Project Manager")
+            @Html.ValidationMessageFor(model => model.ProjectManagers, "", new { @class = "text-danger" })
         </div>
     </div>
 
@@ -45,18 +45,18 @@
     @if (User.IsInRole("ProjectManager") || User.IsInRole("Admin"))
     {
         <div class="form-group">
-            @Html.LabelFor(model => model.IsArchived, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Project.IsArchived, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
-                    @Html.EditorFor(model => model.IsArchived)
-                    @Html.ValidationMessageFor(model => model.IsArchived, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Project.IsArchived)
+                    @Html.ValidationMessageFor(model => model.Project.IsArchived, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
     }
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-default" />
+            <input type="submit" value="Save" class="btn btn-primary" />
         </div>
     </div>
 </div>
