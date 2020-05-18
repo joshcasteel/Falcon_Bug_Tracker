@@ -21,4 +21,26 @@ namespace Falcon_Bug_Tracker.ViewModel
         public int TicketId { get; set; }
 
     }
+
+    public class TicketCreateVM
+    {
+        public Ticket Ticket { get; set; }
+        public List<ApplicationUser> Developers { get; set; }
+        public string DeveloperId { get; set; }
+
+    }
+
+    public class TicketDetailsVM
+    {
+        public Ticket Ticket { get; set; }
+        public string ProjectName { get; set; }
+        public string ProjectManager { get; set; }
+        public string Developer { get; set; }
+        public string Submitter { get; set; }
+        public string TicketPriority { get; set; }
+        public string TicketStatus { get; set; }
+        public string TicketType { get; set; }
+        
+
+    }
 }

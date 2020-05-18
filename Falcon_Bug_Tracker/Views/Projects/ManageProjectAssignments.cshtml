@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Falcon_Bug_Tracker.ViewModel.CustomUserData>
+﻿@model IEnumerable<Falcon_Bug_Tracker.ViewModel.UserInfoVM>
 @{
     ViewBag.Title = "ManageProjectAssignments";
 }
@@ -35,7 +35,7 @@
 
 <div class="row">
     <div class="col text-center">
-        <table class="table data-table">
+        <table id="basic-datatable" class="table dt-responsive nowrap w-100">
             <thead>
                 <tr>
                     <th>Full Name</th>

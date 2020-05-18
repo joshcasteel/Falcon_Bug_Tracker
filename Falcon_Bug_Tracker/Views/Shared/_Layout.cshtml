@@ -49,7 +49,6 @@
                     <li class="side-nav-item">
                         <a href="javascript: void(0);" class="side-nav-link">
                             <i class="uil-home-alt"></i>
-                            <span class="badge badge-success float-right">4</span>
                             <span> Dashboards </span>
                         </a>
                         <ul class="side-nav-second-level" aria-expanded="false">
@@ -67,32 +66,48 @@
                     </li>
                     <li class="side-nav-item">
                         <a href="javascript: void(0);" class="side-nav-link">
-                            <i class="uil-home-alt"></i>
-                            <span class="badge badge-success float-right">4</span>
+                            <i class="uil-suitcase"></i>
                             <span> Projects </span>
                         </a>
                         <ul class="side-nav-second-level" aria-expanded="false">
                             <li>
                                 <a href="@Url.Action("Index", "Projects")">View Projects</a>
                             </li>
-                            <li>
-                                <a href="@Url.Action("Create", "Projects")">Tickets</a>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("Assign", "ManageProjectAssignments")">Users</a>
-                            </li>
-
+                            @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                            {
+                                <li>
+                                    <a href="@Url.Action("Create", "Projects")">Create</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("ManageProjectAssignments", "Projects")">Assign Users</a>
+                                </li>
+                            }
                         </ul>
                     </li>
-                    @if (User.IsInRole("ProjectManager") || User.IsInRole("Admin"))
-                    {
-                        <li class="side-nav-item">
-                            <a href="@Url.Action("ManageProjectAssignments", "Projects")" class="side-nav-link">
-                                <i class="uil-paperclip"></i>
-                                <span> Project Assignments </span>
-                            </a>
-                        </li>
-                    }
+                    <li class="side-nav-item">
+                        <a href="javascript: void(0);" class="side-nav-link">
+                            <i class="uil-invoice"></i>
+                            <span> Tickets </span>
+                        </a>
+                        <ul class="side-nav-second-level" aria-expanded="false">
+                            <li>
+                                <a href="@Url.Action("Index", "Tickets")">View Tickets</a>
+                            </li>
+                            @if (User.IsInRole("Submitter"))
+                            {
+                                <li>
+                                    <a href="@Url.Action("Create", "Tickets")">Create</a>
+                                </li>
+                            }
+                            @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                            {
+                                <li>
+                                    <a href="@Url.Action("ManageProjectAssignments", "Projects")">Assign Users</a>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                   
                     @if (User.IsInRole("Admin"))
                     {
                         <li class="side-nav-item">
@@ -102,40 +117,8 @@
                             </a>
                         </li>
                     }
-                    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
-                    {
-                        <li class="side-nav-item">
-                            <a href="@Url.Action("Create", "Projects")" class="side-nav-link">
-                                <i class="uil-calender"></i>
-                                <span> Create Project </span>
-                            </a>
-                        </li>
-                    }
-                    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
-                    {
-                        <li class="side-nav-item">
-                            <a href="@Url.Action("Index", "Projects")" class="side-nav-link">
-                                <i class="uil-calender"></i>
-                                <span> List Projects </span>
-                            </a>
-                        </li>
-                    }
-                    @if (User.IsInRole("Admin") || User.IsInRole("Submitter"))
-                    {
-                        <li class="side-nav-item">
-                            <a href="@Url.Action("Create", "Tickets")" class="side-nav-link">
-                                <i class="uil-calender"></i>
-                                <span> Create Ticket </span>
-                            </a>
-                        </li>
-                    }
-                    <li class="side-nav-item">
-                        <a href="@Url.Action("Index", "Tickets")" class="side-nav-link">
-                            <i class="uil-calender"></i>
-                            <span> View Tickets </span>
-                        </a>
-                    </li>
-            </div>
+                   
+</div>
             <!-- Sidebar -left -->
 
         </div>

@@ -4,66 +4,136 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+@if (TempData["Alert"] != null)
+{
+    <div class="alert alert-danger alert-dismissible bg-danger text-white border-0 fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>Error - </strong> @TempData["Alert"]
+    </div>
+}
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table id="basic-datatable" class="table dt-responsive nowrap w-100">
-    <thead>
-        <tr role="row">
-            <th>
-                @Html.DisplayName("Name")
-            </th>
-            <th>
-                @Html.DisplayName("Description")
-            </th>
-            <th>
-                @Html.DisplayName("Project Manager")
-            </th>
-            <th>
-                @Html.DisplayName("Number of Tickets")
-            </th>
-            <th>
-                @Html.DisplayName("Created")
-            </th>
-            <th>
-                @Html.DisplayName("Updated")
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.AllProjects)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ProjectManagerId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Tickets.Count)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Created)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Updated)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                </td>
+
+@if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+{
+    <h2>All Projects</h2>
+    <table id="basic-datatable" class="table dt-responsive nowrap w-100">
+        <thead>
+            <tr role="row">
+                <th>
+                    @Html.DisplayName("Name")
+                </th>
+                <th>
+                    @Html.DisplayName("Description")
+                </th>
+                <th>
+                    @Html.DisplayName("Project Manager")
+                </th>
+                <th>
+                    @Html.DisplayName("Number of Tickets")
+                </th>
+                <th>
+                    @Html.DisplayName("Created")
+                </th>
+                <th>
+                    @Html.DisplayName("Updated")
+                </th>
+                <th></th>
             </tr>
-        }
+        </thead>
+        <tbody>
+            @foreach (var item in Model.AllProjects)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProjectManagerId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tickets.Count)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Created)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Updated)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+            }
         </tbody>
-   
-</table>
 
+    </table>
+}
 
+@if(Model.MyProjects != null)
+    { 
+    <h2>My Projects</h2>
+
+    <table id="basic-datatable" class="table dt-responsive nowrap w-100">
+        <thead>
+            <tr role="row">
+                <th>
+                    @Html.DisplayName("Name")
+                </th>
+                <th>
+                    @Html.DisplayName("Description")
+                </th>
+                <th>
+                    @Html.DisplayName("Project Manager")
+                </th>
+                <th>
+                    @Html.DisplayName("Number of Tickets")
+                </th>
+                <th>
+                    @Html.DisplayName("Created")
+                </th>
+                <th>
+                    @Html.DisplayName("Updated")
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.MyProjects)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProjectManagerId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tickets.Count)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Created)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Updated)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+}

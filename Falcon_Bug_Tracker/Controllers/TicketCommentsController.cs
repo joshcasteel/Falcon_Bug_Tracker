@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Falcon_Bug_Tracker.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Falcon_Bug_Tracker.Controllers
 {
@@ -17,8 +18,34 @@ namespace Falcon_Bug_Tracker.Controllers
         // GET: TicketComments
         public ActionResult Index()
         {
-            var ticketComments = db.TicketComments.Include(t => t.Ticket).Include(t => t.User);
-            return View(ticketComments.ToList());
+            var userId = User.Identity.GetUserId();
+            if(User.IsInRole("Admin"))
+            {
+                return View(db.TicketComments.ToList());
+            }
+
+            if (User.IsInRole("ProjectManager"))
+            {
+                List<TicketComment> assignedTicketComments = new List<TicketComment>();
+                var assignedProjects = db.Projects.Where(p => p.ProjectManagerId == userId).ToList();
+                var tickets = db.Tickets.ToList();
+                foreach (var ticket in tickets)
+                {
+                    foreach (var project in assignedProjects)
+                    {
+                        if (ticket.ProjectId == project.Id)
+                        {
+                            foreach(var comment in ticket.Comments)
+                            {
+                                assignedTicketComments.Add(comment);
+                            }
+                        }
+                    }
+                }
+            }
+            
+            
+            return View();
         }
 
         // GET: TicketComments/Details/5
@@ -53,9 +80,11 @@ namespace Falcon_Bug_Tracker.Controllers
         {
             if (ModelState.IsValid)
             {
+                ticketComment.Created = DateTime.Now;
+                ticketComment.UserId = User.Identity.GetUserId();
                 db.TicketComments.Add(ticketComment);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "TicketComments", new { id = ticketComment.TicketId });
             }
 
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId", ticketComment.TicketId);
@@ -75,9 +104,55 @@ namespace Falcon_Bug_Tracker.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId", ticketComment.TicketId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketComment.UserId);
-            return View(ticketComment);
+
+            bool allowedEdit = false;
+            var userId = User.Identity.GetUserId();
+
+            if (User.IsInRole("Admin"))
+            {
+                allowedEdit = true;
+            }
+
+            if (User.IsInRole("ProjectManager"))
+            {
+                var assignedProjects = db.Projects.Where(p => p.ProjectManagerId == userId);
+                foreach (var project in assignedProjects)
+                {
+                    foreach (var ticket in project.Tickets)
+                    {
+                        if (ticketComment.TicketId == ticket.Id)
+                        {
+                            allowedEdit = true;
+                        }
+                    }
+                }
+            }
+
+            if (User.IsInRole("Developer"))
+            {
+                var ticket = db.Tickets.Find(ticketComment.TicketId);
+                if (ticket.DeveloperId == userId)
+                {
+                    allowedEdit = true;
+                }
+            }
+
+            if (User.IsInRole("Submitter"))
+            {
+                if (ticketComment.UserId == userId)
+                {
+                    allowedEdit = true;
+                }
+            }
+
+            if (allowedEdit)
+            {
+                ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId", ticketComment.TicketId);
+                ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketComment.UserId);
+                return View(ticketComment);
+            }
+            TempData["Alert"] = "You do not have access to edit that comment";
+            return RedirectToAction("Index", "TicketComments", TempData);
         }
 
         // POST: TicketComments/Edit/5
@@ -89,9 +164,9 @@ namespace Falcon_Bug_Tracker.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(ticketComment).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                    db.Entry(ticketComment).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Details", "Tickets", new { id = ticketComment.TicketId }); 
             }
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId", ticketComment.TicketId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketComment.UserId);

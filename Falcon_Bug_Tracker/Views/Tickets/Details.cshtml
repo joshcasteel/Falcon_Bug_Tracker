@@ -1,5 +1,4 @@
-﻿@model Falcon_Bug_Tracker.Models.Ticket
-
+﻿@model Falcon_Bug_Tracker.ViewModel.TicketDetailsVM
 @{
     ViewBag.Title = "Details";
 }
@@ -9,98 +8,278 @@
 <div>
     <h4>Ticket</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Developer.FirstName)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Developer.FirstName)
-        </dd>
+    <div class="row">
+        <div class="col-xl-8 col-lg-7">
+            <!-- project card -->
+            <div class="card d-block">
+                <div class="card-body">
+                    <div class="dropdown card-widgets">
+                        <div class="page-title-right">
+                            <a href="@Url.Action("Edit", "Tickets", new { id = Model.Ticket.Id })">
+                                <i class="uil uil-edit mr-1"></i>Edit
+                            </a>
+                        </div> <!-- end dropdown menu-->
+                    </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Priority.Name)
-        </dt>
+                    <h3 class="mt-3">@Model.Ticket.Title</h3>
 
-        <dd>
-            @Html.DisplayFor(model => model.Priority.Name)
-        </dd>
+                    <div class="row">
+                        <div class="col-3">
+                            <!-- assignee -->
+                            <p class="mt-2 mb-1 text-muted font-weight-bold font-12 text-uppercase">Assigned Developer</p>
+                            <div class="media">
+                                <img src="~/Images/Avatars/avatar_default.png" alt="Arya S" class="rounded-circle mr-2" height="24">
+                                <div class="media-body">
+                                    <h5 class="mt-1 font-14">
+                                        @Model.Developer
+                                    </h5>
+                                </div>
+                            </div>
+                            <!-- end assignee -->
+                        </div> <!-- end col -->
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Project.Name)
-        </dt>
+                        <div class="col-2">
+                            <p class="mt-2 mb-1 text-muted font-weight-bold font-12 text-uppercase">Project</p>
+                            <div class="media">
+                                <i class="uil uil-bag font-18 text-success mr-1"></i>
+                                <div class="media-body">
+                                    <h5 class="mt-1 font-14">
+                                        @Model.ProjectName
+                                    </h5>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                        <div class="col-3">
+                            <p class="mt-2 mb-1 text-muted font-weight-bold font-12 text-uppercase">Updated</p>
+                            <div class="media">
+                                <i class="uil uil-schedule font-18 text-success mr-1"></i>
+                                <div class="media-body">
+                                    <h5 class="mt-1 font-14">
+                                        @Model.Ticket.Updated
+                                    </h5>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                        <div class="col-3">
+                            <p class="mt-2 mb-1 text-muted font-weight-bold font-12 text-uppercase">Created</p>
+                            <div class="media">
+                                <i class="uil uil-calendar-alt font-18 text-primary mr-1"></i>
+                                <div class="media-body">
+                                    <h5 class="mt-1 font-14">
+                                        @Model.Ticket.Created
+                                    </h5>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                    <hr />
+                    <h5 class="mt-3">Description:</h5>
 
-        <dd>
-            @Html.DisplayFor(model => model.Project.Name)
-        </dd>
+                    <p class="text-muted mb-4">
+                        @Model.Ticket.Description
+                    </p>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Status.Name)
-        </dt>
+                    <p class="text-muted mt-4">Submitted by: @Model.Submitter </p>
+                    <hr />
 
-        <dd>
-            @Html.DisplayFor(model => model.Status.Name)
-        </dd>
+                    <div class="row">
+                        <div class="col-4">
+                            <p class="mt-2 mb-1 text-muted font-weight-bold font-12 text-uppercase">Ticket Priority</p>
+                            <div class="media">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Submitter.FirstName)
-        </dt>
+                                <div class="media-body">
+                                    <h5 class="mt-1 font-14">
+                                        @Model.TicketPriority
+                                    </h5>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
 
-        <dd>
-            @Html.DisplayFor(model => model.Submitter.FirstName)
-        </dd>
+                        <div class="col-4">
+                            <p class="mt-2 mb-1 text-muted font-weight-bold font-12 text-uppercase">Ticket Status</p>
+                            <div class="media">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TicketType.Name)
-        </dt>
+                                <div class="media-body">
+                                    <h5 class="mt-1 font-14">
+                                        @Model.TicketStatus
+                                    </h5>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
 
-        <dd>
-            @Html.DisplayFor(model => model.TicketType.Name)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
+                        <div class="col-4">
+                            <p class="mt-2 mb-1 text-muted font-weight-bold font-12 text-uppercase">Ticket Type</p>
+                            <div class="media">
 
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
+                                <div class="media-body">
+                                    <h5 class="mt-1 font-14">
+                                        @Model.TicketType
+                                    </h5>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+                </div> <!-- end card-body-->
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+            </div> <!-- end card-->
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Created)
-        </dt>
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="my-1">Comments @Model.Ticket.Comments.Count()</h4>
+                </div>
+                <div class="card-body">
+                    @foreach(var comment in Model.Ticket.Comments)
+                    {
+                    <div class="media">
+                        <img class="mr-2 rounded-circle" src="~/Images/Avatars/avatar_default.png" alt="Generic placeholder image" height="32">
+                        <div class="media-body">
+                            <h5 class="mt-0">@comment.UserId <small class="text-muted float-right">@comment.Created</small></h5>
+                            <h5 class="mt-0"><small class="text-muted float-right"><a href="@Url.Action("Edit", "TicketComments", new { id = comment.Id, created = comment.Created })"><i class="uil uil-edit mr-1"></i>Edit</a></small></h5>
+                            @comment.Body
 
-        <dd>
-            @Html.DisplayFor(model => model.Created)
-        </dd>
+                        </div>
+                        
+                    </div>
+                    <br />
+                    }
+                    
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Updated)
-        </dt>
+                <div class="border rounded mt-4">
+                    @using (Html.BeginForm("Create", "TicketComments", FormMethod.Post, new { @class = "comment-area-box" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.TextArea("Body", new { @class = "form-control border-0 resize-none", placeholder = "Your comment..."})
+                        @Html.Hidden("TicketId", Model.Ticket.Id)
+                        <div class="p-2 bg-light d-flex justify-content-between align-items-center">
+                            <button type="submit" class="btn btn-sm btn-success"><i class="uil uil-message mr-1"></i>Submit</button>
+                        </div>
+                    }
 
-        <dd>
-            @Html.DisplayFor(model => model.Updated)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.IsArchived)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.IsArchived)
-        </dd>
+                </div> <!-- end .border-->
 
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+                </div> <!-- end card-body-->
+            </div>
+            <!-- end card-->
+        </div> <!-- end col -->
+
+        <div class="col-xl-4 col-lg-5">
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Attachments</h5>
+
+                    <form action="/" method="post" class="dropzone dz-clickable" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews" data-upload-preview-template="#uploadPreviewTemplate">
+
+
+                        <div class="dz-message needsclick">
+                            <i class="h3 text-muted dripicons-cloud-upload"></i>
+                            <h4>Drop files here or click to upload.</h4>
+                        </div>
+                    </form>
+
+                    <!-- Preview -->
+                    <div class="dropzone-previews mt-3" id="file-previews"></div>
+
+                    <!-- file preview template -->
+                    <div class="d-none" id="uploadPreviewTemplate">
+                        <div class="card mt-1 mb-0 shadow-none border">
+                            <div class="p-2">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <img data-dz-thumbnail="" src="#" class="avatar-sm rounded bg-light" alt="">
+                                    </div>
+                                    <div class="col pl-0">
+                                        <a href="javascript:void(0);" class="text-muted font-weight-bold" data-dz-name=""></a>
+                                        <p class="mb-0" data-dz-size=""></p>
+                                    </div>
+                                    <div class="col-auto">
+                                        <!-- Button -->
+                                        <a href="" class="btn btn-link btn-lg text-muted" data-dz-remove="">
+                                            <i class="dripicons-cross"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end file preview template -->
+
+
+                    <div class="card my-1 shadow-none border">
+                        <div class="p-2">
+                            <div class="row align-items-center">
+                                <div class="col-auto">
+                                    <div class="avatar-sm">
+                                        <span class="avatar-title rounded">
+                                            .ZIP
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col pl-0">
+                                    <a href="javascript:void(0);" class="text-muted font-weight-bold">Hyper-admin-design.zip</a>
+                                    <p class="mb-0">2.3 MB</p>
+                                </div>
+                                <div class="col-auto">
+                                    <!-- Button -->
+                                    <a href="javascript:void(0);" class="btn btn-link btn-lg text-muted">
+                                        <i class="dripicons-download"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mb-1 shadow-none border">
+                        <div class="p-2">
+                            <div class="row align-items-center">
+                                <div class="col-auto">
+                                    <img src="assets/images/projects/project-1.jpg" class="avatar-sm rounded" alt="file-image">
+                                </div>
+                                <div class="col pl-0">
+                                    <a href="javascript:void(0);" class="text-muted font-weight-bold">Dashboard-design.jpg</a>
+                                    <p class="mb-0">3.25 MB</p>
+                                </div>
+                                <div class="col-auto">
+                                    <!-- Button -->
+                                    <a href="javascript:void(0);" class="btn btn-link btn-lg text-muted">
+                                        <i class="dripicons-download"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mb-0 shadow-none border">
+                        <div class="p-2">
+                            <div class="row align-items-center">
+                                <div class="col-auto">
+                                    <div class="avatar-sm">
+                                        <span class="avatar-title bg-secondary rounded">
+                                            .MP4
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col pl-0">
+                                    <a href="javascript:void(0);" class="text-muted font-weight-bold">Admin-bug-report.mp4</a>
+                                    <p class="mb-0">7.05 MB</p>
+                                </div>
+                                <div class="col-auto">
+                                    <!-- Button -->
+                                    <a href="javascript:void(0);" class="btn btn-link btn-lg text-muted">
+                                        <i class="dripicons-download"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
