@@ -91,6 +91,7 @@ namespace Falcon_Bug_Tracker.Controllers
             profileInfo.FirstName = userInfo.FirstName;
             profileInfo.LastName = userInfo.LastName;
             profileInfo.Email = userInfo.Email;
+            profileInfo.AvatarPath = userInfo.AvatarPath;
 
             return View(profileInfo);
         }

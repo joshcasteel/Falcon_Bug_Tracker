@@ -183,7 +183,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\HistoryHelper.cs" />
+    <Compile Include="Helpers\NotificationHelper.cs" />
     <Compile Include="Helpers\ProjectsHelper.cs" />
+    <Compile Include="Helpers\UserProjectAssignmentHelper.cs" />
     <Compile Include="Helpers\UserRolesHelper.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -250,6 +253,7 @@
     <Content Include="fonts\unicons.woff2" />
     <Content Include="Scripts\demo.datatable-init.js" />
     <Content Include="Views\Admin\ManageRoles.cshtml" />
+    <None Include="Properties\PublishProfiles\casteelbugtracker - Web Deploy.pubxml" />
     <None Include="Views\Home\Dashboard.cshtml" />
     <Content Include="Images\Avatars\avatar_default.png" />
     <Content Include="Images\bg-pattern-light.svg" />
@@ -368,6 +372,7 @@
     <Content Include="Views\Projects\ManageProjectAssignments.cshtml" />
     <Content Include="Views\Manage\EditProfile.cshtml" />
     <Content Include="private.config" />
+    <Content Include="Views\Projects\AssignUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

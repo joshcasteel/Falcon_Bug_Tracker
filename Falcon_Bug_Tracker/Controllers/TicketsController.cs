@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Security.Policy;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -20,48 +21,65 @@ namespace Falcon_Bug_Tracker.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private UserRolesHelper rolesHelper = new UserRolesHelper();
         private ProjectsHelper projHelper = new ProjectsHelper();
+        private HistoryHelper historyHelper = new HistoryHelper();
+        private NotificationHelper notificationHelper = new NotificationHelper();
         // GET: Tickets
-        public ActionResult Index()
+        
+        public ActionResult ClearAll()
         {
             var userId = User.Identity.GetUserId();
+            var userNotifications = db.TicketNotifications.Where(t => t.ReceipientId == userId);
+            foreach(var notificiation in userNotifications)
+            {
+                notificiation.IsRead = true;
+            }
+            db.SaveChanges();
+            return Redirect(Request.UrlReferrer.ToString());
+        }
+
+        public ActionResult Index(int? id)
+        {
+            if(id != null)
+            {
+                db.TicketNotifications.Find(id).IsRead = true;
+                db.SaveChanges();
+            }
+            var ticketIndexVM = new TicketIndexVM();
+            ticketIndexVM.AllTickets = db.Tickets.ToList();            
+            
+            var userId = User.Identity.GetUserId();
+            
             
             if(User.IsInRole("Admin"))
             {
-                return View(db.Tickets.ToList());
+                ticketIndexVM.AssignedTickets = db.Tickets.ToList();
+                return View(ticketIndexVM);
             }
 
             if(User.IsInRole("ProjectManager"))
             {
-                List<Ticket> assignedTickets = new List<Ticket>();
-                var assignedProjects = db.Projects.Where(p => p.ProjectManagerId == userId).ToList();
-                var tickets = db.Tickets.ToList();
-                foreach(var ticket in tickets)
-                {
-                    foreach(var project in assignedProjects)
-                    {
-                        if(ticket.ProjectId == project.Id)
-                        {
-                            assignedTickets.Add(ticket);
-                        }
-                    }
-                }
-                return View(assignedTickets);
+             
+                ticketIndexVM.ProjectTickets = db.Projects.Where(p => p.ProjectManagerId == userId).SelectMany(t => t.Tickets).ToList();
+                
+                return View(ticketIndexVM);
             }
 
             if(User.IsInRole("Developer"))
             {
-                var tickets = db.Tickets.Where(t => t.DeveloperId == userId).ToList();
-                return View(tickets);
+                ticketIndexVM.AssignedTickets = db.Tickets.Where(t => t.DeveloperId == userId).ToList();
+                ticketIndexVM.ProjectTickets = db.Users.Find(userId).Projects.SelectMany(t => t.Tickets).ToList();
+                
+                return View(ticketIndexVM);
             }
 
             if(User.IsInRole("Submitter"))
             {
-                var tickets = db.Tickets.Where(t => t.SubmitterId == userId).ToList();
-                return View(tickets);
+                ticketIndexVM.AssignedTickets = db.Tickets.Where(t => t.SubmitterId == userId).ToList();
+                return View(ticketIndexVM);
             }
 
-            TempData["Alert"] = "You don't have access to view tickets";
-            return View(TempData);
+            
+            return View(ticketIndexVM);
         }
 
         // GET: Tickets/Details/5
@@ -199,6 +217,7 @@ namespace Falcon_Bug_Tracker.Controllers
             editTicketData.TicketId = ticket.Id;
             editTicketData.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
             editTicketData.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusId);
+            editTicketData.DeveloperId = new SelectList(rolesHelper.UsersInRole("Developer"), "Id", "FullName", ticket.DeveloperId);
             editTicketData.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
             var userId = User.Identity.GetUserId();
             if (User.IsInRole("Admin"))
@@ -250,19 +269,29 @@ namespace Falcon_Bug_Tracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int Id, int TicketTypeId, int TicketStatusId, int TicketPriorityId, string Title, string Description)
+        public ActionResult Edit(int Id, int TicketTypeId, int TicketStatusId, int TicketPriorityId, string Title, string Description, string DeveloperId)
         {
             if (ModelState.IsValid)
             {
-                var ticket = db.Tickets.Find(Id);
-                ticket.Title = Title;
-                ticket.Description = Description;
-                ticket.TicketPriorityId = TicketPriorityId;
-                ticket.TicketStatusId = TicketStatusId;
-                ticket.TicketTypeId = TicketTypeId;
-                ticket.Updated = DateTime.Now;
-                
+                //AsNoTracking() to get a Memento Ticket Object
+                var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == Id);
+
+
+                var newTicket = db.Tickets.Find(Id);
+                newTicket.Title = Title;
+                newTicket.Description = Description;
+                newTicket.TicketPriorityId = TicketPriorityId;
+                newTicket.TicketStatusId = TicketStatusId;
+                newTicket.DeveloperId = DeveloperId == "" ? null : DeveloperId;
+                newTicket.TicketTypeId = TicketTypeId;
+                newTicket.Updated = DateTime.Now;
+
                 db.SaveChanges();
+
+
+                historyHelper.ManageHistoryRecordCreation(oldTicket, newTicket);
+                notificationHelper.ManageNotifications(oldTicket, newTicket);
+
                 return RedirectToAction("Index");
             }
             ViewBag.DeveloperId = new SelectList(db.Users, "Id", "FullName", Id);

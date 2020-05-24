@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Web;
 using System.Web.Mvc;
@@ -24,31 +25,38 @@ namespace Falcon_Bug_Tracker.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private ProjectsHelper projHelper = new ProjectsHelper();
         private UserRolesHelper userHelper = new UserRolesHelper();
+        private UserProjectAssignmentHelper assignHelper = new UserProjectAssignmentHelper();
 
         public ActionResult ManageProjectAssignments()
         {
             if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
             {
-                var customUserDataList = new List<UserInfoVM>();
+                var assignUsersVM = new AssignUsersVM();
                 var users = db.Users.ToList();
-
-
-                ViewBag.UserIds = new MultiSelectList(db.Users, "Id", "FullName");
-                ViewBag.ProjectIds = new MultiSelectList(db.Projects, "Id", "Name");
-
+                
                 foreach (var user in users)
                 {
-                    customUserDataList.Add(new UserInfoVM
+                    assignUsersVM.Users.Add(new UserInfoVM
                     {
                         UserId = user.Id,
                         FullName = user.FullName,
+                        RoleName = userHelper.ListUserRoles(user.Id).FirstOrDefault(),
                         Email = user.Email,
                         ProjectNames = projHelper.ListUserProjects(user.Id).Select(p => p.Name).ToList(),
                         ProjectIds = projHelper.ListUserProjects(user.Id).Select(p => p.Id).ToList()
+
                     });
                 }
+                
+                var developers = userHelper.UsersInRole("Developer");
+                var submitters = userHelper.UsersInRole("Submitter");
 
-                return View(customUserDataList);
+                assignUsersVM.DeveloperSelectList = new MultiSelectList(developers, "Id", "FullName");
+                assignUsersVM.SubmitterSelectList = new MultiSelectList(submitters, "Id", "FullName");
+                assignUsersVM.ProjectSelectList = new MultiSelectList(db.Projects, "Id", "Name");
+                
+
+                return View(assignUsersVM);
             }
             TempData["Alert"] = "You are not authorized to assign projects";
             return RedirectToAction("Index", "Projects");
@@ -56,14 +64,25 @@ namespace Falcon_Bug_Tracker.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ManageProjectAssignments(List<string> userIds, List<int> projectIds)
+        public ActionResult ManageProjectAssignments(List<string> developerSelectList, List<string> submitterSelectList, List<int> projectSelectList)
         {
-            if (userIds == null || projectIds == null)
+            if ((developerSelectList == null && submitterSelectList == null) || projectSelectList == null)
                 return RedirectToAction("ManageProjectAssignment");
+
+            var userIds = new List<string>();
+            if(developerSelectList != null)
+            {
+                userIds.AddRange(developerSelectList);
+            }
+            if(submitterSelectList != null)
+            {
+                userIds.AddRange(submitterSelectList);
+            }
+           
 
             foreach(var userId in userIds)
             {
-                foreach(var projectId in projectIds)
+                foreach(var projectId in projectSelectList)
                 {
                     
                     projHelper.AddUserToProject(userId, projectId);
@@ -77,6 +96,81 @@ namespace Falcon_Bug_Tracker.Controllers
         {
             projHelper.RemoveUserFromProject(userId, projectId);
             return RedirectToAction("ManageProjectAssignments");
+        }
+
+        public ActionResult AssignUsers(int projectId)
+        {
+            var addUsers = new AddUsersToProjectVM();
+
+            var project = db.Projects.Find(projectId);
+            addUsers.Project = project;
+            
+            addUsers.ProjectManagers = new SelectList(userHelper.UsersInRole("ProjectManager"), "Id", "FullName");
+            addUsers.Developers = new MultiSelectList(userHelper.UsersInRole("Developer"), "Id", "FullName");
+            addUsers.Submitters = new MultiSelectList(userHelper.UsersInRole("Submitter"), "Id", "FullName");
+
+            if(project.ProjectManagerId != null)
+            {
+                addUsers.CurrentProjectManager = db.Users.Find(project.ProjectManagerId).FullName;
+            }
+            
+            var projectUsers = projHelper.UsersOnProject(projectId).ToList();
+            foreach(var user in projectUsers)
+            {
+                var role = userHelper.ListUserRoles(user.Id).FirstOrDefault();
+                if(role == "Developer")
+                {
+                    addUsers.CurrentDevelopers.Add(user.FullName);
+                }
+                if(role == "Submitter")
+                {
+                    addUsers.CurrentSubmitters.Add(user.FullName);
+                }
+            }
+            
+
+            return View(addUsers);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AssignUsers(int projectId, AddUsersToProjectVM model)
+        {
+                       
+            if(User.IsInRole("Admin"))
+            {
+                var project = db.Projects.Find(projectId);
+                project.ProjectManagerId = model.ProjectManagerId;
+                db.SaveChanges();
+            }
+            else
+            {
+                foreach (var user in assignHelper.UsersOnProjectInRole(projectId, "Submitter"))
+                {
+                    projHelper.RemoveUserFromProject(user.Id, projectId);
+                }
+
+                if(model.SubmitterIds != null)
+                {
+                    foreach(var submitter in model.SubmitterIds)
+                    {
+                        projHelper.AddUserToProject(submitter, projectId);
+                    }
+                }
+
+                if(model.DeveloperIds != null)
+                {
+                    foreach(var developer in model.DeveloperIds)
+                    {
+                        projHelper.AddUserToProject(developer, projectId);
+                    }
+                }
+
+
+
+            }
+
+            return RedirectToAction("Index", "Projects");
         }
 
 
@@ -100,15 +194,8 @@ namespace Falcon_Bug_Tracker.Controllers
                     }
                 }
 
-                projectIndex.MyProjects = projHelper.ListUserProjects(userId).ToList();
-                foreach (var project in projectIndex.MyProjects)
-                {
-                    if (project.ProjectManagerId != null)
-                    {
-                        string fullName = db.Users.Find(project.ProjectManagerId).FullName;
-                        project.ProjectManagerId = fullName;
-                    }
-                }
+                projectIndex.MyProjects = db.Projects.Where(p => p.ProjectManagerId == userId).ToList();
+                
 
                 return View(projectIndex);
             }

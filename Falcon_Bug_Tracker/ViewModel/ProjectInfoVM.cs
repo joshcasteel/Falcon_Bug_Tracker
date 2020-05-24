@@ -31,5 +31,27 @@ namespace Falcon_Bug_Tracker.ViewModel
         public Project Project { get; set; }
     }
 
+    public class AddUsersToProjectVM
+    {
+        public AddUsersToProjectVM()
+        {
+            CurrentDevelopers = new List<string>();
+            CurrentSubmitters = new List<string>();
+            SubmitterIds = new List<string>();
+            DeveloperIds = new List<string>();
+        }
+        public Project Project { get; set; }
+        public int ProjectId { get; set; }
+        public IEnumerable<SelectListItem> ProjectManagers { get; set; }
+        public string ProjectManagerId { get; set; }
+        public IEnumerable<SelectListItem> Developers { get; set; }
+        public List<string> DeveloperIds { get; set; }
+        public IEnumerable<SelectListItem> Submitters { get; set; }
+        public List<string> SubmitterIds { get; set; }
+        public string CurrentProjectManager { get; set; }
+        public List<string> CurrentDevelopers { get; set; }
+        public List<string> CurrentSubmitters { get; set; }
+    }
+
     
 }

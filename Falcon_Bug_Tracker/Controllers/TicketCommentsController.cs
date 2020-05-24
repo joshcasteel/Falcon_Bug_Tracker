@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Falcon_Bug_Tracker.Models;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 
 namespace Falcon_Bug_Tracker.Controllers
@@ -29,10 +30,12 @@ namespace Falcon_Bug_Tracker.Controllers
                 List<TicketComment> assignedTicketComments = new List<TicketComment>();
                 var assignedProjects = db.Projects.Where(p => p.ProjectManagerId == userId).ToList();
                 var tickets = db.Tickets.ToList();
-                foreach (var ticket in tickets)
+                
+                foreach (var project in assignedProjects)
                 {
-                    foreach (var project in assignedProjects)
+                    foreach (var ticket in tickets)
                     {
+                        //getting tickets for projects assigned to
                         if (ticket.ProjectId == project.Id)
                         {
                             foreach(var comment in ticket.Comments)
@@ -42,9 +45,27 @@ namespace Falcon_Bug_Tracker.Controllers
                         }
                     }
                 }
+                return View(assignedTicketComments);
             }
-            
-            
+
+            if(User.IsInRole("Developer"))
+            {
+                var assignedTickets = db.Tickets.Where(t => t.DeveloperId == userId);
+                List<TicketComment> assignedTicketComments = new List<TicketComment>();
+                foreach(var item in assignedTickets)
+                {
+                    foreach(var comment in item.Comments)
+                    {
+                        assignedTicketComments.Add(comment);
+                    }
+                }
+                return View(assignedTicketComments);
+            }
+
+            if(User.IsInRole("Submitter"))
+            {
+                return View(db.TicketComments.Where(t => t.UserId == userId));
+            }
             return View();
         }
 
@@ -78,6 +99,8 @@ namespace Falcon_Bug_Tracker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,TicketId,UserId,Body,Created")] TicketComment ticketComment)
         {
+            
+            
             if (ModelState.IsValid)
             {
                 ticketComment.Created = DateTime.Now;

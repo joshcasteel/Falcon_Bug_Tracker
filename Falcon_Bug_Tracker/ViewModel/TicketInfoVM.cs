@@ -10,7 +10,7 @@ namespace Falcon_Bug_Tracker.ViewModel
 {
     public class TicketInfoVM
     {
-        public SelectList Developer { get; set; }
+        public SelectList DeveloperId { get; set; }
         
         public SelectList TicketPriorityId { get; set; }
         public SelectList TicketStatusId { get; set; }
@@ -42,5 +42,13 @@ namespace Falcon_Bug_Tracker.ViewModel
         public string TicketType { get; set; }
         
 
+    }
+
+    public class TicketIndexVM
+    {
+        public IEnumerable<Ticket> AllTickets { get; set; }
+        public IEnumerable<Ticket> AssignedTickets { get; set; }
+        public IEnumerable<Ticket> ProjectTickets { get; set; }
+        
     }
 }

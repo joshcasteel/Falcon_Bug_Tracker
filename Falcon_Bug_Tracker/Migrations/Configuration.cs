@@ -70,7 +70,7 @@ namespace Falcon_Bug_Tracker.Migrations
                 {
                     UserName = "jcdemoadmin1@mailinator.com",
                     Email = "jcdemoadmin1@mailinator.com",
-                    FirstName = "John",
+                    FirstName = "Jon",
                     LastName = "Snow",
                     AvatarPath = "/Images/Avatars/avatar_default.png",
                     EmailConfirmed = true

@@ -1,0 +1,72 @@
+﻿@using Falcon_Bug_Tracker.ViewModel
+@model AddUsersToProjectVM
+    
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6">
+            <h2>Assign users to @Model.Project.Name</h2>
+            <div class="card">
+                <div class="card-body">
+                    @using (Html.BeginForm("AssignUsers", "Projects", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("projectId", Model.ProjectId)
+                        if (User.IsInRole("Admin"))
+                        {
+                            @Html.DropDownListFor(m => m.ProjectManagerId, Model.ProjectManagers, new { @class = "form-control" })
+                        }
+                        else
+                        {
+
+                            <div class="form-group">
+                                @Html.Label("Select Submitters")
+                                @Html.ListBoxFor(model => model.SubmitterIds, Model.Submitters, new { @class = "form-control" })
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Select Developers")
+                                @Html.ListBoxFor(model => model.DeveloperIds, Model.Developers, new { @class = "form-control" })
+                            </div>
+
+                        }
+                        <div class="form-group justify-content-center">
+                            <button type="submit" class="btn btn-primary">Add to Project</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <h3>Current Users on Project @Model.Project.Name</h3>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-4">
+                            <strong>Project Manager:</strong>
+                            <hr />
+                            @Model.CurrentProjectManager
+                        </div>
+                        <div class="col-4">
+                            <strong>Developers:</strong>
+                            <hr />
+                            @foreach(var dev in Model.CurrentDevelopers)
+                            {
+                                @dev <br />
+                            }
+                        </div>
+                        <div class="col-4">
+                            <strong>Submitters:</strong>
+                            <hr />
+                            @foreach(var sub in Model.CurrentSubmitters)
+                            {
+                                @sub <br />
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+</div>        
+

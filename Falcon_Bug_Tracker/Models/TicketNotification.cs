@@ -13,6 +13,7 @@ namespace Falcon_Bug_Tracker.Models
         public string SenderId { get; set; }
         public string ReceipientId { get; set; }
         public bool IsRead { get; set; }
+        public string Subject { get; set; }
         public string NotificationBody { get; set; }
         public DateTime Created { get; set; }
         public virtual Ticket Ticket { get; set; }
