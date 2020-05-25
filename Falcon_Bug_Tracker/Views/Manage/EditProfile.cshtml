@@ -1,7 +1,7 @@
 ﻿@model Falcon_Bug_Tracker.ViewModel.ProfileInfo
 
 <h2>EditProfile</h2>
-@using (Html.BeginForm())
+@using (Html.BeginForm("EditProfile", "Manage", FormMethod.Post, new { enctype="multipart/form-data"}))
 {
     @Html.AntiForgeryToken()
 
@@ -37,7 +37,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.AvatarPath, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.AvatarPath, new { htmlAttributes = new { @class = "form-control" } })
+            <input name="avatar" type="file" class="form-control" id="fileUpload" />
             @Html.ValidationMessageFor(model => model.AvatarPath, "", new { @class = "text-danger" })
         </div>
     </div>

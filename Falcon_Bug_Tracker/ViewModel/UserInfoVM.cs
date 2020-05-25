@@ -26,6 +26,10 @@ namespace Falcon_Bug_Tracker.ViewModel
 
         public string LastName { get; set; }
 
+        public string FullName { get; set; }
+
+        public string RoleName { get; set; }
+
         public string Email { get; set; }
 
         public string AvatarPath { get; set; }

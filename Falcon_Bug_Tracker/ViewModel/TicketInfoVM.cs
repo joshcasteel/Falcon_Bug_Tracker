@@ -40,8 +40,8 @@ namespace Falcon_Bug_Tracker.ViewModel
         public string TicketPriority { get; set; }
         public string TicketStatus { get; set; }
         public string TicketType { get; set; }
-        
-
+        public IEnumerable<TicketHistory> TicketHistory { get; set; }        
+        public IEnumerable<TicketAttachment> ticketAttachments { get; set; }
     }
 
     public class TicketIndexVM

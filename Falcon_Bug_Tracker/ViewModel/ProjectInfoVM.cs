@@ -53,5 +53,14 @@ namespace Falcon_Bug_Tracker.ViewModel
         public List<string> CurrentSubmitters { get; set; }
     }
 
-    
+    public class ProjectDashboardVM
+    {
+        public int NumberOfProjects { get; set; }
+        public int NumberOfTickets { get; set; }
+        public int NumberOfProjectManagers { get; set; }
+        public int NumberOfDevelopers { get; set; }
+        public int NumberOfSubmitters { get; set; }
+
+        
+    }
 }

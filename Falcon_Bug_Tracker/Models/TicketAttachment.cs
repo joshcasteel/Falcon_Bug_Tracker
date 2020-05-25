@@ -14,7 +14,7 @@ namespace Falcon_Bug_Tracker.Models
         public string Description { get; set; }
         public DateTime Created { get; set; }
         public string FileUrl { get; set; }
-
+        public string Extension { get; set; }
         public virtual Ticket Ticket { get; set; }
         public virtual ApplicationUser User { get; set; }
     }

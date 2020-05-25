@@ -20,14 +20,22 @@ namespace Falcon_Bug_Tracker.Controllers
         {
             if(User.Identity.IsAuthenticated)
             {
-                return View("Dashboard");
+                return RedirectToAction("Dashboard");
             }
             return View();
         }
         [Authorize]
         public ActionResult Dashboard()
         {
-            return View();
+            var projectsDashboardVM = new ProjectDashboardVM();
+            projectsDashboardVM.NumberOfProjects = db.Projects.Count();
+            projectsDashboardVM.NumberOfTickets = db.Tickets.Count();
+            projectsDashboardVM.NumberOfProjectManagers = rolesHelper.UsersInRole("ProjectManager").Count();
+            projectsDashboardVM.NumberOfDevelopers = rolesHelper.UsersInRole("Developer").Count();
+            projectsDashboardVM.NumberOfSubmitters = rolesHelper.UsersInRole("Submitter").Count();
+            
+            return View(projectsDashboardVM);
+
         }
 
         public PartialViewResult _LoginPartial()
@@ -35,9 +43,12 @@ namespace Falcon_Bug_Tracker.Controllers
             var userId = User.Identity.GetUserId();
             var user = db.Users.Find(userId);
             var role = rolesHelper.ListUserRoles(userId).FirstOrDefault();
-            UserInfoVM userData = new UserInfoVM();
+            
+            var userData = new ProfileInfo();
             userData.FullName = user.FullName;
             userData.RoleName = role;
+            userData.AvatarPath = user.AvatarPath;
+            userData.Email = user.Email;
 
             return PartialView(userData);
         }

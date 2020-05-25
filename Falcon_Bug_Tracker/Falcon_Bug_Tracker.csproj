@@ -184,8 +184,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HistoryHelper.cs" />
+    <Compile Include="Helpers\ImageUploadValidator.cs" />
     <Compile Include="Helpers\NotificationHelper.cs" />
     <Compile Include="Helpers\ProjectsHelper.cs" />
+    <Compile Include="Helpers\StringUtilities.cs" />
     <Compile Include="Helpers\UserProjectAssignmentHelper.cs" />
     <Compile Include="Helpers\UserRolesHelper.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -251,13 +253,15 @@
     <Content Include="fonts\unicons.ttf" />
     <Content Include="fonts\unicons.woff" />
     <Content Include="fonts\unicons.woff2" />
+    <Content Include="Images\favicon.ico" />
+    <Content Include="Images\logo.png" />
+    <Content Include="Scripts\component.fileupload.js" />
     <Content Include="Scripts\demo.datatable-init.js" />
     <Content Include="Views\Admin\ManageRoles.cshtml" />
     <None Include="Properties\PublishProfiles\casteelbugtracker - Web Deploy.pubxml" />
     <None Include="Views\Home\Dashboard.cshtml" />
     <Content Include="Images\Avatars\avatar_default.png" />
     <Content Include="Images\bg-pattern-light.svg" />
-    <Content Include="Images\favicon.png" />
     <Content Include="Scripts\apexcharts.min.js" />
     <Content Include="Scripts\app.min.js" />
     <Content Include="Scripts\britecharts.min.js" />
@@ -376,6 +380,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Attachments\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

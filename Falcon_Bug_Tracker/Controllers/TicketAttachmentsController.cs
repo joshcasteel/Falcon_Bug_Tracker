@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Falcon_Bug_Tracker.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Falcon_Bug_Tracker.Controllers
 {
@@ -49,13 +51,27 @@ namespace Falcon_Bug_Tracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TicketId,UserId,FilePath,Description,Created,FileUrl")] TicketAttachment ticketAttachment)
+        public ActionResult Create([Bind(Include = "TicketId, FileName")] TicketAttachment ticketAttachment, HttpPostedFileBase newAttachment)
         {
             if (ModelState.IsValid)
             {
+
+                var uploadFileName = Path.GetFileNameWithoutExtension(newAttachment.FileName);
+                uploadFileName = StringUtilities.URLFriendly(uploadFileName);
+                uploadFileName = $"{uploadFileName}-{DateTime.Now.Ticks}";
+                uploadFileName = $"{uploadFileName}{Path.GetExtension(newAttachment.FileName)}";
+                ticketAttachment.Description = uploadFileName;
+                ticketAttachment.Extension = $"{Path.GetExtension(newAttachment.FileName)}";
+                ticketAttachment.FilePath = $"/Attachments/{uploadFileName}";
+                newAttachment.SaveAs(Path.Combine(Server.MapPath("~/Attachments/"), uploadFileName));
+
+                ticketAttachment.Created = DateTime.Now;
+                ticketAttachment.UserId = User.Identity.GetUserId();
+
+
                 db.TicketAttachments.Add(ticketAttachment);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Tickets", new { id = ticketAttachment.TicketId });
             }
 
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId", ticketAttachment.TicketId);

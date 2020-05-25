@@ -100,14 +100,13 @@ namespace Falcon_Bug_Tracker.Controllers
         public ActionResult Create([Bind(Include = "Id,TicketId,UserId,Body,Created")] TicketComment ticketComment)
         {
             
-            
             if (ModelState.IsValid)
             {
                 ticketComment.Created = DateTime.Now;
                 ticketComment.UserId = User.Identity.GetUserId();
                 db.TicketComments.Add(ticketComment);
                 db.SaveChanges();
-                return RedirectToAction("Details", "TicketComments", new { id = ticketComment.TicketId });
+                return RedirectToAction("Details", "Tickets", new { id = ticketComment.TicketId });
             }
 
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId", ticketComment.TicketId);

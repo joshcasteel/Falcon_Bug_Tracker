@@ -11,6 +11,8 @@ using Falcon_Bug_Tracker.Helpers;
 using System.Collections.Generic;
 using Falcon_Bug_Tracker.ViewModel;
 using System.Data.Entity.Migrations;
+using Falcon_Bug_Tracker;
+using System.IO;
 
 namespace Falcon_Bug_Tracker.Controllers
 {
@@ -60,22 +62,14 @@ namespace Falcon_Bug_Tracker.Controllers
         private UserRolesHelper userRoleHelper = new UserRolesHelper();
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
-            ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
-                : "";
-
             var userId = User.Identity.GetUserId();
             var roleData = userRoleHelper.ListUserRoles(userId);
             var user = db.Users.Find(userId);
-            var viewData = new UserInfoVM();
+            var viewData = new ProfileInfo();
             viewData.FullName = user.FullName;
             viewData.Email = user.Email;
             viewData.RoleName = roleData.FirstOrDefault();
+            viewData.AvatarPath = user.AvatarPath;
 
             return View(viewData);
         }
@@ -100,8 +94,8 @@ namespace Falcon_Bug_Tracker.Controllers
         //POST: /Manage/EditProfile
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditProfile(string FirstName, string LastName, string Email)
-        {
+        public ActionResult EditProfile(string FirstName, string LastName, string Email, HttpPostedFileBase avatar)
+        { 
             var userId = User.Identity.GetUserId();
             var user = db.Users.Find(userId);
 
@@ -110,6 +104,26 @@ namespace Falcon_Bug_Tracker.Controllers
             user.FullName = $"{LastName}, {FirstName}";
             user.Email = Email;
             user.UserName = Email;
+
+            if(avatar != null)
+            {
+                if (ImageUploadValidator.IsWebFriendlyImage(avatar))
+                {
+                    //Isolate filename from extention
+                    var imgFileName = Path.GetFileNameWithoutExtension(avatar.FileName);
+                    //run filename through slugger to remove any spaces or unwanted characters
+                    imgFileName = StringUtilities.URLFriendly(imgFileName);
+                    //adding timecode to filename
+                    imgFileName = $"{imgFileName}-{DateTime.Now.Ticks}";
+                    //add back extention
+                    imgFileName = $"{imgFileName}{Path.GetExtension(avatar.FileName)}";
+
+                    avatar.SaveAs(Path.Combine(Server.MapPath("~/Images/Avatars/"), imgFileName));
+                    user.AvatarPath = "/Images/Avatars/" + imgFileName;
+                }
+            }
+
+
             db.SaveChanges();
 
             return RedirectToAction("Index");

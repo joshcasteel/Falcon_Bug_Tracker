@@ -11,6 +11,7 @@ using System.Web.Security;
 using Falcon_Bug_Tracker.Helpers;
 using Falcon_Bug_Tracker.Models;
 using Falcon_Bug_Tracker.ViewModel;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 
 namespace Falcon_Bug_Tracker.Controllers
@@ -99,16 +100,23 @@ namespace Falcon_Bug_Tracker.Controllers
 
             var userId = User.Identity.GetUserId();
             TicketDetailsVM ticketDetails = new TicketDetailsVM();
-            ticketDetails.Ticket = ticket;
-            var pmId = db.Projects.Find(ticket.ProjectId).ProjectManagerId;
-            ticketDetails.ProjectName = db.Projects.Find(ticket.ProjectId).Name;
-            ticketDetails.Developer = db.Users.Find(ticket.DeveloperId).FullName;
-            ticketDetails.Submitter = db.Users.Find(ticket.SubmitterId).FullName;
-            ticketDetails.ProjectManager = db.Users.Find(pmId).FullName;
+
+            if (ticket.DeveloperId != null)
+                ticketDetails.Developer = db.Users.Find(ticket.DeveloperId).FullName;
+            
+            if(ticket.Project.ProjectManagerId != null)
+                ticketDetails.ProjectManager = db.Users.Find(ticket.Project.ProjectManagerId).FullName;
+
             ticketDetails.TicketPriority = db.TicketPriorities.Find(ticket.TicketPriorityId).Name;
             ticketDetails.TicketStatus = db.TicketStatuses.Find(ticket.TicketStatusId).Name;
             ticketDetails.TicketType = db.TicketTypes.Find(ticket.TicketTypeId).Name;
-            foreach(var comment in ticket.Comments)
+            ticketDetails.ProjectName = db.Projects.Find(ticket.ProjectId).Name;
+            ticketDetails.Submitter = db.Users.Find(ticket.SubmitterId).FullName;
+            ticketDetails.Ticket = ticket;
+            ticketDetails.TicketHistory = db.TicketHistories.Where(t => t.TicketId == ticket.Id).OrderByDescending(d => d.ChangedOn).ToList();
+            ticketDetails.ticketAttachments = db.TicketAttachments.Where(t => t.TicketId == ticket.Id).ToList();
+
+            foreach (var comment in ticket.Comments)
             {
                 comment.UserId = db.Users.Find(comment.UserId).FullName;
             }

@@ -1,67 +1,65 @@
 ﻿@model Falcon_Bug_Tracker.ViewModel.ProjectEditVM
 
-@{
-    ViewBag.Title = "Edit";
-}
-
-<h2>Edit</h2>
 
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-<div class="form-horizontal">
-    <h4>Project</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.Project.Id)
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Project.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Project.Name, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Project.Name, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Project.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Project.Description, new { htmlAttributes = new { @class = "form-control"} })
-            @Html.ValidationMessageFor(model => model.Project.Description, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.ProjectManagers, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(model => model.ProjectManagerId, Model.ProjectManagers, "Select a Project Manager", new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.ProjectManagers, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-
-    @if (User.IsInRole("ProjectManager") || User.IsInRole("Admin"))
-    {
-        <div class="form-group">
-            @Html.LabelFor(model => model.Project.IsArchived, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.Project.IsArchived)
-                    @Html.ValidationMessageFor(model => model.Project.IsArchived, "", new { @class = "text-danger" })
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <h4 class="page-title">Project Edit</h4>
                 </div>
             </div>
         </div>
-    }
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-primary" />
+        <div class="row">
+            <div class="col-7">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title">Edit Details</h4>
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="form-horizontal">
+                                <hr />
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.Project.Id)
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Project.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Project.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Project.Name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Project.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.Project.Description, new { @class = "form-control", id = "example-textarea", rows = "3" })
+                                        @Html.ValidationMessageFor(model => model.Project.Description, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ProjectManagers, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownListFor(model => model.ProjectManagerId, Model.ProjectManagers, "Select a Project Manager", new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.ProjectManagers, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="Save" class="btn btn-primary" />
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <div>
+                            @Html.ActionLink("Back to List", "Index")
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>

@@ -1,4 +1,4 @@
-﻿@model Falcon_Bug_Tracker.ViewModel.UserInfoVM
+﻿@model Falcon_Bug_Tracker.ViewModel.ProfileInfo
 
 @if (Request.IsAuthenticated)
 {
@@ -7,7 +7,7 @@
         <a class="nav-link dropdown-toggle nav-user arrow-none mr-0" data-toggle="dropdown" href="#" role="button" aria-haspopup="false"
            aria-expanded="false">
             <span class="account-user-avatar">
-                <img src="~/Images/Avatars/avatar_default.png" alt="user-image" class="rounded-circle">
+                <img src="@Model.AvatarPath" alt="user-image" class="rounded-circle">
             </span>
             <span>
                 <span class="account-user-name">@Model.FullName</span>
@@ -24,26 +24,15 @@
             <!-- item-->
             <a href="@Url.Action("Index", "Manage")" class="dropdown-item notify-item">
                 <i class="mdi mdi-account-circle mr-1"></i>
-                <span>My Account</span>
+                <span>My Profile</span>
             </a>
 
             <!-- item-->
-            <a href="javascript:void(0);" class="dropdown-item notify-item">
+            <a href="@Url.Action("EditProfile", "Manage")" class="dropdown-item notify-item">
                 <i class="mdi mdi-account-edit mr-1"></i>
-                <span>Settings</span>
+                <span>Edit Profile</span>
             </a>
 
-            <!-- item-->
-            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                <i class="mdi mdi-lifebuoy mr-1"></i>
-                <span>Support</span>
-            </a>
-
-            <!-- item-->
-            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                <i class="mdi mdi-lock-outline mr-1"></i>
-                <span>Lock Screen</span>
-            </a>
             @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "LogOut" }))
             {
                 @Html.AntiForgeryToken()
