@@ -10,6 +10,7 @@ using Falcon_Bug_Tracker.Models;
 
 namespace Falcon_Bug_Tracker.Controllers
 {
+    [Authorize]
     public class TicketHistoriesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

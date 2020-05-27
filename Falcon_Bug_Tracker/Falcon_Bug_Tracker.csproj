@@ -337,7 +337,6 @@
     <Content Include="Views\Tickets\Details.cshtml" />
     <Content Include="Views\Tickets\Edit.cshtml" />
     <Content Include="Views\Tickets\Index.cshtml" />
-    <Content Include="Views\TicketAttachments\Create.cshtml" />
     <Content Include="Views\TicketAttachments\Delete.cshtml" />
     <Content Include="Views\TicketAttachments\Details.cshtml" />
     <Content Include="Views\TicketAttachments\Edit.cshtml" />
@@ -357,26 +356,12 @@
     <Content Include="Views\TicketNotifications\Details.cshtml" />
     <Content Include="Views\TicketNotifications\Edit.cshtml" />
     <Content Include="Views\TicketNotifications\Index.cshtml" />
-    <Content Include="Views\TicketPriorities\Create.cshtml" />
-    <Content Include="Views\TicketPriorities\Delete.cshtml" />
-    <Content Include="Views\TicketPriorities\Details.cshtml" />
-    <Content Include="Views\TicketPriorities\Edit.cshtml" />
-    <Content Include="Views\TicketPriorities\Index.cshtml" />
-    <Content Include="Views\TicketStatus\Create.cshtml" />
-    <Content Include="Views\TicketStatus\Delete.cshtml" />
-    <Content Include="Views\TicketStatus\Details.cshtml" />
-    <Content Include="Views\TicketStatus\Edit.cshtml" />
-    <Content Include="Views\TicketStatus\Index.cshtml" />
-    <Content Include="Views\TicketTypes\Create.cshtml" />
-    <Content Include="Views\TicketTypes\Delete.cshtml" />
-    <Content Include="Views\TicketTypes\Details.cshtml" />
-    <Content Include="Views\TicketTypes\Edit.cshtml" />
-    <Content Include="Views\TicketTypes\Index.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Projects\ManageProjectAssignments.cshtml" />
     <Content Include="Views\Manage\EditProfile.cshtml" />
     <Content Include="private.config" />
     <Content Include="Views\Projects\AssignUsers.cshtml" />
+    <Content Include="Views\Account\DemoLogin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

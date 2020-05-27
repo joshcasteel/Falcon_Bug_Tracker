@@ -17,7 +17,7 @@
     <!-- App css -->
     <link href="~/Content/icons.min.css" rel="stylesheet" />
     <link href="~/Content/app.min.css" rel="stylesheet" />
-    
+
 
 </head>
 
@@ -38,35 +38,27 @@
                         <div class="card-body p-4">
 
                             <div class="text-center w-75 m-auto">
-                                <h4 class="text-dark-50 text-center mt-0 font-weight-bold">Sign In</h4>
-                                <p class="text-muted mb-4">Enter your email address and password to access admin panel.</p>
+                                <h4 class="text-dark-50 text-center mt-0 font-weight-bold">Demo Logins</h4>
+                                <hr />
                             </div>
 
-                            @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+                            @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
                             {
                                 @Html.AntiForgeryToken()
-                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.Email)
-                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Enter your email" })
-                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                                </div>
 
-                                <div class="form-group">
-                                    <a href="@Url.Action("ForgotPassword", "Account")" class="text-muted float-right"><small>Forgot your password?</small></a>
-                                    @Html.LabelFor(m => m.Password)
-                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control ", placeholder = "Enter your password" })
-                                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                <div class="form-group mb-2 text-center">
+                                    <button class="btn btn-primary w-100" type="submit" name="emailKey" value="DemoAdminEmail"> Demo Admin </button>
                                 </div>
-
-                                <div class="form-group mb-0 text-center">
-                                    <button class="btn btn-primary" type="submit"> Log In </button>
+                                <div class="form-group mb-2 text-center">
+                                    <button class="btn btn-success w-100" type="submit" name="emailKey" value="DemoPMEmail"> Demo Project Manager </button>
                                 </div>
-                                <div class="form-group mb-0 text-center mt-3">
-                                    @Html.ActionLink("Demo Login", "DemoLogin", "Account")
+                                <div class="form-group mb-2 text-center">
+                                    <button class="btn btn-info w-100" type="submit" name="emailKey" value="DemoDevEmail"> Demo Developer </button>
                                 </div>
-                                
+                                <div class="form-group mb-2 text-center">
+                                    <button class="btn btn-secondary w-100" type="submit" name="emailKey" value="DemoSubEmail"> Demo Submitter </button>
+                                </div>
 
                             }
                         </div> <!-- end card-body -->

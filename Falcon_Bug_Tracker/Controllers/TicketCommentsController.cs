@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 
 namespace Falcon_Bug_Tracker.Controllers
 {
+    [Authorize]
     public class TicketCommentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

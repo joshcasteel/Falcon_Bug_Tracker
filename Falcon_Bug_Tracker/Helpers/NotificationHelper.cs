@@ -31,7 +31,7 @@ namespace Falcon_Bug_Tracker.Helpers
                     TicketId = newTicket.Id,
                     Created = created,
                     SenderId = HttpContext.Current.User.Identity.GetUserId(),
-                    ReceipientId = newTicket.DeveloperId,
+                    RecipientId = newTicket.DeveloperId,
                     Subject = $"You've been assigned ticket {newTicket.Id}",
                     NotificationBody = $"{newTicket.Title} has been assigned to you at ${newTicket.Updated}."
                 }) ;
@@ -46,7 +46,7 @@ namespace Falcon_Bug_Tracker.Helpers
                     TicketId = newTicket.Id,
                     Created = created,
                     SenderId = HttpContext.Current.User.Identity.GetUserId(),
-                    ReceipientId = oldTicket.DeveloperId,
+                    RecipientId = oldTicket.DeveloperId,
                     Subject = $"You've unassigned from ticket {newTicket.Id}",
                     NotificationBody = $"{oldTicket.Title} has been unassigned to you at ${newTicket.Updated}."
                 });
@@ -61,7 +61,7 @@ namespace Falcon_Bug_Tracker.Helpers
                     TicketId = newTicket.Id,
                     Created = created,
                     SenderId = HttpContext.Current.User.Identity.GetUserId(),
-                    ReceipientId = newTicket.DeveloperId,
+                    RecipientId = newTicket.DeveloperId,
                     Subject = $"You've been assigned ticket {newTicket.Id}",
                     NotificationBody = $"{newTicket.Title} has been assigned to you at ${newTicket.Updated}."
                 });
@@ -71,7 +71,7 @@ namespace Falcon_Bug_Tracker.Helpers
                     TicketId = newTicket.Id,
                     Created = created,
                     SenderId = HttpContext.Current.User.Identity.GetUserId(),
-                    ReceipientId = oldTicket.DeveloperId,
+                    RecipientId = oldTicket.DeveloperId,
                     Subject = $"You've unassigned from ticket {newTicket.Id}",
                     NotificationBody = $"{oldTicket.Title} has been assigned to you at ${newTicket.Updated}."
                 });
@@ -96,7 +96,7 @@ namespace Falcon_Bug_Tracker.Helpers
                 }
 
                 var db = new ApplicationDbContext();
-                var notifications = db.TicketNotifications.Where(t => t.ReceipientId == userId && !t.IsRead).ToList();
+                var notifications = db.TicketNotifications.Where(t => t.RecipientId == userId && !t.IsRead).ToList();
                 return notifications;
 
             }

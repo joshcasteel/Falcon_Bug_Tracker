@@ -37,7 +37,7 @@ namespace Falcon_Bug_Tracker.Controllers
             return View(projectsDashboardVM);
 
         }
-
+        [Authorize]
         public PartialViewResult _LoginPartial()
         {
             var userId = User.Identity.GetUserId();

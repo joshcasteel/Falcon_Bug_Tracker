@@ -64,6 +64,14 @@ namespace Falcon_Bug_Tracker.Controllers
         }
 
         //
+        // GET: /Account/Login
+        [AllowAnonymous]
+        public ActionResult DemoLogin()
+        {
+            return View();
+        }
+
+        //
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
@@ -90,6 +98,30 @@ namespace Falcon_Bug_Tracker.Controllers
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
                     ViewBag.LoginErrors = "Invalid Login Attempt";
+                    return RedirectToAction("Index", "Home");
+                    //return View(model);
+            }
+        }
+
+        //
+        // POST: /Account/Login
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DemoLoginAsync(string emailKey)
+        {
+            var email = WebConfigurationManager.AppSettings[emailKey];
+            var password = WebConfigurationManager.AppSettings["DemoPassword"];
+
+            // This doesn't count login failures towards account lockout
+            // To enable password failures to trigger account lockout, change to shouldLockout: true
+            var result = await SignInManager.PasswordSignInAsync(email, password, false, shouldLockout: false);
+            switch (result)
+            {
+                case SignInStatus.Success:
+                    return RedirectToAction("Dashboard", "Home");
+                case SignInStatus.Failure:
+                default:
                     return RedirectToAction("Index", "Home");
                     //return View(model);
             }

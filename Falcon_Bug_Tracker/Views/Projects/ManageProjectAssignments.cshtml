@@ -3,88 +3,101 @@
     ViewBag.Title = "ManageProjectAssignments";
 }
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card mt-2">
+                    <div class="card-body">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
 
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-                @Html.Label("Developers", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.ListBoxFor(model => model.DeveloperSelectList, Model.DeveloperSelectList, new { @class = "form-control" })
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        @Html.Label("Developers", htmlAttributes: new { @class = "control-label col-md-4" })
+                                        <div class="col-md-10">
+                                            @Html.ListBoxFor(model => model.DeveloperSelectList, Model.DeveloperSelectList, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        @Html.Label("Submitters", htmlAttributes: new { @class = "control-label col-md-4" })
+                                        <div class="col-md-10">
+                                            @Html.ListBoxFor(model => model.SubmitterSelectList, Model.SubmitterSelectList, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        @Html.Label("Projects", htmlAttributes: new { @class = "control-label col-md-4" })
+                                        <div class="col-md-10">
+                                            @Html.ListBoxFor(model => model.ProjectSelectList, Model.ProjectSelectList, htmlAttributes: new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <button type="submit" class="btn btn-primary">Assign</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                @Html.Label("Submitters", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.ListBoxFor(model => model.SubmitterSelectList, Model.SubmitterSelectList, new { @class = "form-control" })
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                @Html.Label("Projects", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.ListBoxFor(model => model.ProjectSelectList, Model.ProjectSelectList, htmlAttributes: new { @class = "form-control" })
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col text-center">
+                        <table id="basic-datatable" class="table dt-responsive nowrap w-100">
+                            <thead>
+                                <tr>
+                                    <th>Full Name</th>
+                                    <th>Role</th>
+                                    <th>Email</th>
+                                    <th>Project</th>
+                                    <th>Remove Project</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var user in Model.Users)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(model => user.FullName)
+                                        </td>
+                                        <td>
+
+                                            @Html.DisplayFor(model => user.RoleName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => user.Email)
+                                        </td>
+                                        <td>
+                                            @foreach (var projectName in user.ProjectNames)
+                                            {
+                                                @projectName
+                                                <br />
+                                            }
+                                        </td>
+                                        <td>
+                                            @foreach (var projId in user.ProjectNames)
+                                            {
+                                                @Html.ActionLink("Remove", "RemoveUserFromProject", new { userId = user.UserId, projectId = projId })
+                                                <br />
+                                            }
+
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12 text-center">
-            <button type="submit" class="btn btn-primary">Assign</button>
-        </div>
-    </div>
-}
-<br />
-
-<div class="row">
-    <div class="col text-center">
-        <table id="basic-datatable" class="table dt-responsive nowrap w-100">
-            <thead>
-                <tr>
-                    <th>Full Name</th>
-                    <th>Role</th>
-                    <th>Email</th>
-                    <th>Project</th>
-                    <th>Remove Project</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var user in Model.Users)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(model => user.FullName)
-                        </td>
-                        <td>
-                            
-                            @Html.DisplayFor(model => user.RoleName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(model => user.Email)
-                        </td>
-                        <td>
-                            @foreach (var projectName in user.ProjectNames)
-                            {
-                                @projectName
-                                <br />
-                            }
-                        </td>
-                        <td>
-                            @foreach (var projId in user.ProjectNames)
-                            {
-                                @Html.ActionLink("Remove", "RemoveUserFromProject", new { userId = user.UserId, projectId = projId })
-                                <br />
-                            }
-
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-</div>

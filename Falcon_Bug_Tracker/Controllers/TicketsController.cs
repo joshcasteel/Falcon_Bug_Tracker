@@ -16,7 +16,7 @@ using Microsoft.AspNet.Identity;
 
 namespace Falcon_Bug_Tracker.Controllers
 {
-    
+    [Authorize]
     public class TicketsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -29,7 +29,7 @@ namespace Falcon_Bug_Tracker.Controllers
         public ActionResult ClearAll()
         {
             var userId = User.Identity.GetUserId();
-            var userNotifications = db.TicketNotifications.Where(t => t.ReceipientId == userId);
+            var userNotifications = db.TicketNotifications.Where(t => t.RecipientId == userId);
             foreach(var notificiation in userNotifications)
             {
                 notificiation.IsRead = true;
@@ -82,7 +82,7 @@ namespace Falcon_Bug_Tracker.Controllers
             
             return View(ticketIndexVM);
         }
-
+        
         // GET: Tickets/Details/5
         public ActionResult Details(int? id)
         {
@@ -102,10 +102,16 @@ namespace Falcon_Bug_Tracker.Controllers
             TicketDetailsVM ticketDetails = new TicketDetailsVM();
 
             if (ticket.DeveloperId != null)
+            {
                 ticketDetails.Developer = db.Users.Find(ticket.DeveloperId).FullName;
+            }
+                
             
             if(ticket.Project.ProjectManagerId != null)
+            {
                 ticketDetails.ProjectManager = db.Users.Find(ticket.Project.ProjectManagerId).FullName;
+            }
+                
 
             ticketDetails.TicketPriority = db.TicketPriorities.Find(ticket.TicketPriorityId).Name;
             ticketDetails.TicketStatus = db.TicketStatuses.Find(ticket.TicketStatusId).Name;
@@ -230,7 +236,6 @@ namespace Falcon_Bug_Tracker.Controllers
             var userId = User.Identity.GetUserId();
             if (User.IsInRole("Admin"))
             {
-                
                 return View(editTicketData);
             }
 
@@ -279,12 +284,10 @@ namespace Falcon_Bug_Tracker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int Id, int TicketTypeId, int TicketStatusId, int TicketPriorityId, string Title, string Description, string DeveloperId)
         {
-            if (ModelState.IsValid)
+            try
             {
                 //AsNoTracking() to get a Memento Ticket Object
                 var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == Id);
-
-
                 var newTicket = db.Tickets.Find(Id);
                 newTicket.Title = Title;
                 newTicket.Description = Description;
@@ -296,17 +299,16 @@ namespace Falcon_Bug_Tracker.Controllers
 
                 db.SaveChanges();
 
-
                 historyHelper.ManageHistoryRecordCreation(oldTicket, newTicket);
                 notificationHelper.ManageNotifications(oldTicket, newTicket);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Tickets", new { id = newTicket.Id });
             }
-            ViewBag.DeveloperId = new SelectList(db.Users, "Id", "FullName", Id);
-            ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", TicketPriorityId);
-            ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name", TicketStatusId);
-            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", TicketTypeId);
-            return View();
+            catch(Exception Ex)
+            {
+                return View(Ex);
+            }
+                           
         }
 
         // GET: Tickets/Delete/5

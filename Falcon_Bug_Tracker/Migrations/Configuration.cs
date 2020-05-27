@@ -10,6 +10,7 @@ namespace Falcon_Bug_Tracker.Migrations
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using System.Web.Configuration;
 
     internal sealed class Configuration : DbMigrationsConfiguration<Falcon_Bug_Tracker.Models.ApplicationDbContext>
     {
@@ -50,6 +51,7 @@ namespace Falcon_Bug_Tracker.Migrations
             #region User Creation
             var userManager = new UserManager<ApplicationUser>(
                new UserStore<ApplicationUser>(context));
+            var demoPassword = WebConfigurationManager.AppSettings["DemoPassword"];
 
             if (!context.Users.Any(u => u.Email == "joshcasteelz@gmail.com"))
             {
@@ -64,6 +66,55 @@ namespace Falcon_Bug_Tracker.Migrations
                 }, "Abc&123!");
             }
 
+            if (!context.Users.Any(u => u.Email == "demoadmin@mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
+                {
+                    UserName = "demoadmin@mailinator.com",
+                    Email = "demoadmin@mailinator.com",
+                    FirstName = "Bob",
+                    LastName = "Trueman",
+                    AvatarPath = "/Images/Avatars/avatar_default.png",
+                    EmailConfirmed = true
+                }, demoPassword);
+            }
+
+            if (!context.Users.Any(u => u.Email == "demopm@mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
+                {
+                    UserName = "demopm@mailinator.com",
+                    Email = "demopm@mailinator.com",
+                    FirstName = "Jenny",
+                    LastName = "Gump",
+                    AvatarPath = "/Images/Avatars/avatar_default.png"
+                }, demoPassword);
+            }
+
+            if (!context.Users.Any(u => u.Email == "demodev@mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
+                {
+                    UserName = "demodev@mailinator.com",
+                    Email = "demodev@mailinator.com",
+                    FirstName = "Eleanor",
+                    LastName = "Shellstrop",
+                    AvatarPath = "/Images/Avatars/avatar_default.png"
+                }, demoPassword);
+            }
+
+            if (!context.Users.Any(u => u.Email == "demosub@mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
+                {
+                    UserName = "demosub@mailinator.com",
+                    Email = "demosub@mailinator.com",
+                    FirstName = "Darren",
+                    LastName = "Richardson",
+                    AvatarPath = "/Images/Avatars/avatar_default.png"
+                }, demoPassword);
+            }
+
             if (!context.Users.Any(u => u.Email == "jcdemoadmin1@mailinator.com"))
             {
                 userManager.Create(new ApplicationUser
@@ -76,7 +127,7 @@ namespace Falcon_Bug_Tracker.Migrations
                     EmailConfirmed = true
                 }, "Abc&123!");
             }
-
+            
             if (!context.Users.Any(u => u.Email == "jcdemopm1@mailinator.com"))
             {
                 userManager.Create(new ApplicationUser
@@ -216,6 +267,19 @@ namespace Falcon_Bug_Tracker.Migrations
                     AvatarPath = "/Images/Avatars/avatar_default.png"
                 }, "Abc&123!");
             }
+
+            var DemoAdmin = userManager.FindByEmail("demoadmin@mailinator.com").Id;
+            userManager.AddToRole(DemoAdmin, "Admin");
+
+            var DemoPM = userManager.FindByEmail("demopm@mailinator.com").Id;
+            userManager.AddToRole(DemoPM, "ProjectManager");
+
+            var DemoDev = userManager.FindByEmail("demodev@mailinator.com").Id;
+            userManager.AddToRole(DemoDev, "Developer");
+
+            var DemoSub = userManager.FindByEmail("demosub@mailinator.com").Id;
+            userManager.AddToRole(DemoSub, "Submitter");
+
             var AdminId = userManager.FindByEmail("joshcasteelz@gmail.com").Id;
             userManager.AddToRole(AdminId, "Admin");
 

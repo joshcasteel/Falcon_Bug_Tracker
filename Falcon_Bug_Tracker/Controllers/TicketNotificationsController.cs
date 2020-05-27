@@ -10,6 +10,7 @@ using Falcon_Bug_Tracker.Models;
 
 namespace Falcon_Bug_Tracker.Controllers
 {
+    [Authorize]
     public class TicketNotificationsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -49,7 +50,7 @@ namespace Falcon_Bug_Tracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TicketId,SenderId,ReceipientId,IsRead,NotificationBody,Created")] TicketNotification ticketNotification)
+        public ActionResult Create([Bind(Include = "Id,TicketId,SenderId,RecipientId,IsRead,NotificationBody,Created")] TicketNotification ticketNotification)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +86,7 @@ namespace Falcon_Bug_Tracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,TicketId,SenderId,ReceipientId,IsRead,NotificationBody,Created")] TicketNotification ticketNotification)
+        public ActionResult Edit([Bind(Include = "Id,TicketId,SenderId,RecipientId,IsRead,NotificationBody,Created")] TicketNotification ticketNotification)
         {
             if (ModelState.IsValid)
             {
