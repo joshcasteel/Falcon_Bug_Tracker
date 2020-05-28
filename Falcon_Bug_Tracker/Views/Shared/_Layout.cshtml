@@ -201,13 +201,14 @@
     <!-- END wrapper -->
     <!-- Right Sidebar -->
     <!-- Footer Start -->
-    
+
+
 
     <script src="~/Scripts/vendor.min.js"></script>
     <script src="~/Scripts/app.min.js"></script>
-    <script src="~/Scripts/Chart.bundle.min.js"></script>
 
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+   
     <script src="~/Scripts/jquery.dataTables.min.js"></script>
     <script src="~/Scripts/dataTables.bootstrap4.js"></script>
     <script src="~/Scripts/dataTables.responsive.min.js"></script>
@@ -215,7 +216,7 @@
 
     <script src="~/Scripts/demo.datatable-init.js"></script>
 
-
+    @RenderSection("scripts", false)
 </body>
 <footer class="footer">
     <div class="container-fluid">

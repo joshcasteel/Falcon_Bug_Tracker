@@ -1,4 +1,4 @@
-﻿@model Falcon_Bug_Tracker.Models.Project
+﻿@model Falcon_Bug_Tracker.ViewModel.ProjectDetailsVM
 
     <div class="container-fluid">
         <div class="row">
@@ -18,27 +18,27 @@
                 <div class="card-body">
                     <dl class="class=" row mb-0"">
                         <dt class="col-sm-3">
-                            @Html.DisplayNameFor(model => model.Name)
+                            @Html.DisplayNameFor(model => model.ProjectName)
                         </dt>
 
                         <dd class="col-sm-9">
-                            @Html.DisplayFor(model => model.Name)
+                            @Html.DisplayFor(model => model.ProjectName)
                         </dd>
                         <hr />
                         <dt class="col-sm-3">
-                            @Html.DisplayNameFor(model => model.Description)
+                            @Html.DisplayNameFor(model => model.ProjectDescription)
                         </dt>
 
                         <dd class="col-sm-9">
-                            @Html.DisplayFor(model => model.Description)
+                            @Html.DisplayFor(model => model.ProjectDescription)
                         </dd>
                         <hr />
                         <dt class="col-sm-3">
-                            @Html.DisplayNameFor(model => model.ProjectManagerId)
+                            @Html.DisplayNameFor(model => model.ProjectManager)
                         </dt>
 
                         <dd class="col-sm-9">
-                            @Html.DisplayFor(model => model.ProjectManagerId)
+                            @Html.DisplayFor(model => model.ProjectManager)
                         </dd>
                         <hr />
                         <dt class="col-sm-3">
@@ -60,7 +60,7 @@
                     </dl>
                 </div>
                 <p class="p-3">
-                    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class="btn btn-primary m-1"})
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.ProjectId }, new { @class="btn btn-primary m-1"})
                     @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light m-1" })
                 </p>
             </div>

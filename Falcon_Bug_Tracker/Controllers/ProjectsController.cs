@@ -227,8 +227,19 @@ namespace Falcon_Bug_Tracker.Controllers
             {
                 return HttpNotFound();
             }
+            var projectDetailsVM = new ProjectDetailsVM();
+            projectDetailsVM = new ProjectDetailsVM
+            {
+                ProjectId = project.Id,
+                ProjectName = project.Name,
+                ProjectDescription = project.Description,
+                ProjectManager = db.Users.Find(project.ProjectManagerId).FullName,
+                Created = project.Created,
+                Updated = project.Updated
+            };
 
-            return View(project);
+
+            return View(projectDetailsVM);
         }
 
         // GET: Projects/Create

@@ -241,16 +241,15 @@ namespace Falcon_Bug_Tracker.Controllers
 
             if (User.IsInRole("ProjectManager"))
             {
-                var assignedProjects = db.Projects.Where(p => p.ProjectManagerId == userId).ToList();
-                foreach (var project in assignedProjects)
+                
+                if(ticket.Project.ProjectManagerId == userId)
                 {
-                    if (project.Id == ticket.ProjectId)
-                    {
-                        return View(editTicketData);
-                    }
-                    TempData["Alert"] = "You can only edit tickets for your assigned projects";
-                    return RedirectToAction("Index", "Tickets", TempData);
+                    return View(editTicketData);
                 }
+                        
+                TempData["Alert"] = "You can only edit tickets for your assigned projects";
+                return RedirectToAction("Index", "Tickets", TempData);
+                
             }
 
             if(User.IsInRole("Developer"))
@@ -309,42 +308,6 @@ namespace Falcon_Bug_Tracker.Controllers
                 return View(Ex);
             }
                            
-        }
-
-        // GET: Tickets/Delete/5
-        [Authorize(Roles = "Admin")]
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Ticket ticket = db.Tickets.Find(id);
-            if (ticket == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ticket);
-        }
-
-        // POST: Tickets/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Ticket ticket = db.Tickets.Find(id);
-            db.Tickets.Remove(ticket);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

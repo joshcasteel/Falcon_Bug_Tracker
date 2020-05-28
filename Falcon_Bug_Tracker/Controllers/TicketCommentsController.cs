@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Falcon_Bug_Tracker.Helpers;
 using Falcon_Bug_Tracker.Models;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
@@ -16,6 +17,7 @@ namespace Falcon_Bug_Tracker.Controllers
     public class TicketCommentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private UserRolesHelper rolesHelper = new UserRolesHelper();
 
         // GET: TicketComments
         public ActionResult Index()
@@ -100,14 +102,16 @@ namespace Falcon_Bug_Tracker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,TicketId,UserId,Body,Created")] TicketComment ticketComment)
         {
-            
+            var userId = User.Identity.GetUserId();
             if (ModelState.IsValid)
             {
-                ticketComment.Created = DateTime.Now;
-                ticketComment.UserId = User.Identity.GetUserId();
-                db.TicketComments.Add(ticketComment);
-                db.SaveChanges();
-                return RedirectToAction("Details", "Tickets", new { id = ticketComment.TicketId });
+                
+                    ticketComment.Created = DateTime.Now;
+                    ticketComment.UserId = User.Identity.GetUserId();
+                    db.TicketComments.Add(ticketComment);
+                    db.SaveChanges();
+                    return RedirectToAction("Details", "Tickets", new { id = ticketComment.TicketId });
+                
             }
 
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId", ticketComment.TicketId);
@@ -185,11 +189,13 @@ namespace Falcon_Bug_Tracker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,TicketId,UserId,Body,Created")] TicketComment ticketComment)
         {
+            var userId = User.Identity.GetUserId();
             if (ModelState.IsValid)
             {
-                    db.Entry(ticketComment).State = EntityState.Modified;
-                    db.SaveChanges();
-                    return RedirectToAction("Details", "Tickets", new { id = ticketComment.TicketId }); 
+                db.Entry(ticketComment).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Details", "Tickets", new { id = ticketComment.TicketId });
+                    
             }
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId", ticketComment.TicketId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketComment.UserId);

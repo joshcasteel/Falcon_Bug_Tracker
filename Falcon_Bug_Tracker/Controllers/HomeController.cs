@@ -33,7 +33,18 @@ namespace Falcon_Bug_Tracker.Controllers
             projectsDashboardVM.NumberOfProjectManagers = rolesHelper.UsersInRole("ProjectManager").Count();
             projectsDashboardVM.NumberOfDevelopers = rolesHelper.UsersInRole("Developer").Count();
             projectsDashboardVM.NumberOfSubmitters = rolesHelper.UsersInRole("Submitter").Count();
-            
+
+            projectsDashboardVM.TicketsAssigned = db.Tickets.Where(t => t.Status.Name == "Assigned").Count();
+            projectsDashboardVM.TicketsOpen = db.Tickets.Where(t => t.Status.Name == "Open").Count();
+            projectsDashboardVM.TicketsReopened = db.Tickets.Where(t => t.Status.Name == "Reopened").Count();
+            projectsDashboardVM.TicketsResolved = db.Tickets.Where(t => t.Status.Name == "Resolved").Count();
+
+            projectsDashboardVM.TicketSoftware = db.Tickets.Where(t => t.TicketType.Name == "Software").Count();
+            projectsDashboardVM.TicketHardware = db.Tickets.Where(t => t.TicketType.Name == "Hardware").Count();
+            projectsDashboardVM.TicketUi = db.Tickets.Where(t => t.TicketType.Name == "UI").Count();
+            projectsDashboardVM.TicketDefect = db.Tickets.Where(t => t.TicketType.Name == "Defect").Count();
+            projectsDashboardVM.TicketOther = db.Tickets.Where(t => t.TicketType.Name == "Other").Count();
+
             return View(projectsDashboardVM);
 
         }

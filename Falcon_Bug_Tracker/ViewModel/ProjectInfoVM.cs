@@ -31,6 +31,16 @@ namespace Falcon_Bug_Tracker.ViewModel
         public Project Project { get; set; }
     }
 
+    public class ProjectDetailsVM
+    {
+        public int ProjectId { get; set; }
+        public string ProjectName { get; set; }
+        public string ProjectDescription { get; set; }
+        public string ProjectManager { get; set; }
+        public DateTime Created { get; set; }
+        public DateTime? Updated { get; set; }
+    }
+
     public class AddUsersToProjectVM
     {
         public AddUsersToProjectVM()
@@ -61,6 +71,16 @@ namespace Falcon_Bug_Tracker.ViewModel
         public int NumberOfDevelopers { get; set; }
         public int NumberOfSubmitters { get; set; }
 
+        public int TicketsOpen { get; set; }
+        public int TicketsAssigned { get; set; }
+        public int TicketsResolved { get; set; }
+        public int TicketsReopened { get; set; }
+
+        public int TicketSoftware { get; set; }
+        public int TicketHardware { get; set; }
+        public int TicketUi { get; set; }
+        public int TicketDefect { get; set; }
+        public int TicketOther { get; set; }
         
     }
 }
