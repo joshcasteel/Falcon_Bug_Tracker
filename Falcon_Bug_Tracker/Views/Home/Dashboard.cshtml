@@ -357,7 +357,7 @@
         var myBarChart = new Chart(ctx2, {
             type: 'horizontalBar',
             data: {
-                labels: ['Software', 'Hardware', 'UI', 'Defect', 'Other'],
+                labels: ['Software: ', 'Hardware: ', 'UI: ', 'Defect: ', 'Other: '],
                 datasets: [{
                     data: [@Model.TicketSoftware, @Model.TicketHardware, @Model.TicketUi, @Model.TicketDefect, @Model.TicketOther],
                     
@@ -384,7 +384,7 @@
                             categoryPercentage: .7,
                             stacked: !1,
                             gridLines: { color: "rgba(0,0,0,0.01)" },
-                            
+                            ticks: { fontSize: 16 }
                         },
                     ],
                     xAxes: [
@@ -392,7 +392,7 @@
 
                             gridLines: { display: !1, color: "rgba(0,0,0,0.05)" },
                             stacked: !1,
-                            ticks: { stepSize: 5 },
+                            ticks: { stepSize: 2, fontSize: 16, beginAtZero: 1 },
                         },
                     ],
                 }
