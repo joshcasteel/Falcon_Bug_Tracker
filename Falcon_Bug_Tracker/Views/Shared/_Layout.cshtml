@@ -30,7 +30,7 @@
         <div class="left-side-menu">
 
             <!-- LOGO -->
-            <a href="#" class="logo text-center logo-light">
+            <a href="@Url.Action("Dashboard", "Home")" class="logo text-center logo-light">
                 <span class="logo-lg">
                     <img src="~/Images/logo.png" alt="">
                 </span>
@@ -50,55 +50,58 @@
                         </a>
                     </li>
                     <li class="side-nav-item">
-                        <a href="javascript: void(0);" class="side-nav-link">
+                        <a href="@Url.Action("Index", "Projects")" class="side-nav-link">
                             <i class="uil-suitcase"></i>
-                            <span> Projects </span>
+                            <span> My Projects </span>
                         </a>
-                        <ul class="side-nav-second-level" aria-expanded="false">
-                            <li>
-                                <a href="@Url.Action("Index", "Projects")">View Projects</a>
-                            </li>
-                            @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
-                            {
-                                <li>
-                                    <a href="@Url.Action("Create", "Projects")">Create</a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("ManageProjectAssignments", "Projects")">Assign Users</a>
-                                </li>
-                            }
-                        </ul>
                     </li>
-                    <li class="side-nav-item">
-                        <a href="javascript: void(0);" class="side-nav-link">
-                            <i class="uil-invoice"></i>
-                            <span> Tickets </span>
-                        </a>
-                        <ul class="side-nav-second-level" aria-expanded="false">
-                            <li>
-                                <a href="@Url.Action("Index", "Tickets")">View Tickets</a>
-                            </li>
-                            @if (User.IsInRole("Submitter"))
-                            {
-                                <li>
-                                    <a href="@Url.Action("Create", "Tickets")">Create</a>
-                                </li>
-                            }
+                    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                    {
+                        <li class="side-nav-item">
+                            <a href="@Url.Action("Create", "Projects")" class="side-nav-link">
+                                <i class="uil-envelope-add"></i>
+                                <span> Create Projects </span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="@Url.Action("ManageProjectAssignments", "Projects")" class="side-nav-link">
+                                <i class="uil-user-plus"></i>
+                                <span> Assign Users </span>
+                            </a>
+                        </li>
+                    }
 
-                        </ul>
+
+                    <li class="side-nav-item">
+                        <a href="@Url.Action("Index", "Tickets")" class="side-nav-link">
+                            <i class="uil-invoice"></i>
+                            <span> My Tickets </span>
+                        </a>
+
                     </li>
+                    
+                    @if (User.IsInRole("Submitter"))
+                    {
+                        <li class="side-nav-item">
+                            <a href="@Url.Action("Create", "Tickets")" class="side-nav-link">
+                                <i class="uil-file-plus-alt"></i>
+                                <span> Create Ticket </span>
+                            </a>
+
+                        </li>
+                    }
 
                     @if (User.IsInRole("Admin"))
                     {
                         <li class="side-nav-item">
                             <a href="@Url.Action("ManageRoles", "Admin")" class="side-nav-link">
-                                <i class="uil-calender"></i>
+                                <i class="uil-users-alt"></i>
                                 <span> Manage Roles </span>
                             </a>
                         </li>
                     }
 
-            </div>
+</div>
             <!-- Sidebar -left -->
 
         </div>
@@ -156,7 +159,7 @@
                     <button class="button-menu-mobile open-left disable-btn">
                         <i class="mdi mdi-menu"></i>
                     </button>
-                    
+
                 </div>
                 <!-- end Topbar -->
 

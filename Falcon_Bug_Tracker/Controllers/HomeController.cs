@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Falcon_Bug_Tracker.Models;
 using Falcon_Bug_Tracker.Helpers;
 using Falcon_Bug_Tracker.ViewModel;
+using System.Web.Security;
 
 namespace Falcon_Bug_Tracker.Controllers
 {
@@ -20,7 +21,7 @@ namespace Falcon_Bug_Tracker.Controllers
         {
             if(User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Dashboard");
+                return RedirectToAction("CustomLogOff", "Account");
             }
             return View();
         }
@@ -51,6 +52,7 @@ namespace Falcon_Bug_Tracker.Controllers
             projectsDashboardVM.TicketOnHold = db.Tickets.Where(t => t.Priority.Name == "On Hold").Count();
 
             projectsDashboardVM.RecentTickets = db.Tickets.OrderByDescending(t => t.Updated).Take(5).ToList();
+            
 
             return View(projectsDashboardVM);
 
@@ -69,6 +71,27 @@ namespace Falcon_Bug_Tracker.Controllers
             userData.Email = user.Email;
 
             return PartialView(userData);
+        }
+
+        public ActionResult Users()
+        {
+            var userIndexVM = new UserIndexVM();
+            var users = db.Users.ToList();
+
+            foreach(var user in users)
+            {
+                userIndexVM.Users.Add(new UserInfoVM
+                {
+                    UserId = user.Id,
+                    FullName = user.FullName,
+                    RoleName = rolesHelper.ListUserRoles(user.Id).FirstOrDefault(),
+                    Email = user.Email,
+                    NumberOfTickets = user.Projects.SelectMany(t => t.Tickets).Count()
+                });
+            }
+
+
+            return View(userIndexVM);
         }
 
     }

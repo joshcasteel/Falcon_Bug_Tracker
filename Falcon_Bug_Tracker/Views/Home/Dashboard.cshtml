@@ -20,41 +20,49 @@
                     <div class="row no-gutters">
                         <div class="col-sm-6 col-xl-3">
                             <div class="card shadow-none m-0">
-                                <div class="card-body text-center">
-                                    <i class="dripicons-briefcase text-muted" style="font-size: 24px;"></i>
-                                    <h3><span>@Model.NumberOfProjects</span></h3>
-                                    <p class="text-muted font-15 mb-0">Total Projects</p>
-                                </div>
+                                <a href="@Url.Action("Index", "Projects")">
+                                    <div class="card-body text-center">
+                                        <i class="dripicons-briefcase text-muted" style="font-size: 24px;"></i>
+                                        <h3><span class="text-secondary">@Model.NumberOfProjects</span></h3>
+                                        <p class="text-muted font-15 mb-0">Total Projects</p>
+                                    </div>
+                                </a>
                             </div>
                         </div>
 
                         <div class="col-sm-6 col-xl-3">
                             <div class="card shadow-none m-0 border-left">
-                                <div class="card-body text-center">
-                                    <i class="dripicons-checklist text-muted" style="font-size: 24px;"></i>
-                                    <h3><span>@Model.NumberOfTickets</span></h3>
-                                    <p class="text-muted font-15 mb-0">Total Tickets</p>
-                                </div>
+                                <a href="@Url.Action("Index", "Tickets")">
+                                    <div class="card-body text-center">
+                                        <i class="dripicons-checklist text-muted" style="font-size: 24px;"></i>
+                                        <h3><span class="text-secondary">@Model.NumberOfTickets</span></h3>
+                                        <p class="text-muted font-15 mb-0">Total Tickets</p>
+                                    </div>
+                                </a>
                             </div>
                         </div>
 
                         <div class="col-sm-6 col-xl-3">
                             <div class="card shadow-none m-0 border-left">
-                                <div class="card-body text-center">
-                                    <i class="dripicons-user-group text-muted" style="font-size: 24px;"></i>
-                                    <h3><span>@Model.NumberOfProjectManagers</span></h3>
-                                    <p class="text-muted font-15 mb-0">Project Managers</p>
-                                </div>
+                                <a href="@Url.Action("Users", "Home")">
+                                    <div class="card-body text-center">
+                                        <i class="dripicons-user-group text-muted" style="font-size: 24px;"></i>
+                                        <h3><span class="text-secondary">@Model.NumberOfProjectManagers</span></h3>
+                                        <p class="text-muted font-15 mb-0">Project Managers</p>
+                                    </div>
+                                </a>
                             </div>
                         </div>
 
                         <div class="col-sm-6 col-xl-3">
                             <div class="card shadow-none m-0 border-left">
-                                <div class="card-body text-center">
-                                    <i class="dripicons-user-group text-muted" style="font-size: 24px;"></i>
-                                    <h3><span>@Model.NumberOfDevelopers</span></h3>
-                                    <p class="text-muted font-15 mb-0">Developers</p>
-                                </div>
+                                <a href="@Url.Action("Users", "Home")">
+                                    <div class="card-body text-center">
+                                        <i class="dripicons-user-group text-muted" style="font-size: 24px;"></i>
+                                        <h3><span class="text-secondary">@Model.NumberOfDevelopers</span></h3>
+                                        <p class="text-muted font-15 mb-0">Developers</p>
+                                    </div>
+                                </a>
                             </div>
                         </div>
 
@@ -147,11 +155,10 @@
                                 <tr>
                                     <th>Updated</th>
                                     <th>Ticket Title</th>
-                                    <th>Developer</th>
                                     <th>Ticket Status</th>
                                     <th>Ticket Priority</th>
 
-                                </tr>
+                                    </tr>
                             </thead>
                             <tbody>
                                 @foreach (var item in Model.RecentTickets)
@@ -159,7 +166,6 @@
                                     <tr>
                                         <td>@item.Updated</td>
                                         <td>@item.Title</td>
-                                        <td>@item.Developer.FullName </td>
                                         <td>@item.Status.Name</td>
                                         <td>@item.Priority.Name</td>
 

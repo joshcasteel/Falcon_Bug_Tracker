@@ -50,4 +50,13 @@ namespace Falcon_Bug_Tracker.ViewModel
         public IEnumerable<SelectListItem> SubmitterSelectList { get; set; }
         public IEnumerable<SelectListItem> ProjectSelectList { get; set; }
     }
+
+    public class UserIndexVM
+    {
+        public UserIndexVM()
+        {
+            Users = new List<UserInfoVM>();
+        }
+        public List<UserInfoVM> Users { get; set; }
+    }
 }
