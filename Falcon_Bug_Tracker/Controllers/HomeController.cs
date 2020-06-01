@@ -45,6 +45,13 @@ namespace Falcon_Bug_Tracker.Controllers
             projectsDashboardVM.TicketDefect = db.Tickets.Where(t => t.TicketType.Name == "Defect").Count();
             projectsDashboardVM.TicketOther = db.Tickets.Where(t => t.TicketType.Name == "Other").Count();
 
+            projectsDashboardVM.TicketCritical = db.Tickets.Where(t => t.Priority.Name == "Critical").Count();
+            projectsDashboardVM.TicketHigh = db.Tickets.Where(t => t.Priority.Name == "High").Count();
+            projectsDashboardVM.TicketLow = db.Tickets.Where(t => t.Priority.Name == "Low").Count();
+            projectsDashboardVM.TicketOnHold = db.Tickets.Where(t => t.Priority.Name == "On Hold").Count();
+
+            projectsDashboardVM.RecentTickets = db.Tickets.OrderByDescending(t => t.Updated).Take(5).ToList();
+
             return View(projectsDashboardVM);
 
         }

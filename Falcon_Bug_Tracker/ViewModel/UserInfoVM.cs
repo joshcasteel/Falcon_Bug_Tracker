@@ -16,8 +16,10 @@ namespace Falcon_Bug_Tracker.ViewModel
         public string FullName { get; set; }
         public string Email { get; set; }
         public string RoleName { get; set; }
+        public List<Project> Projects { get; set; }
         public List<string> ProjectNames { get; set; }
         public List<int> ProjectIds { get; set; }
+        public int NumberOfTickets { get; set; }
     }
 
     public class ProfileInfo
@@ -43,8 +45,7 @@ namespace Falcon_Bug_Tracker.ViewModel
             Users = new List<UserInfoVM>();
         }
         public List<UserInfoVM> Users { get; set; }
-        public List<IdentityRole> Roles { get; set; }
-
+        
         public IEnumerable<SelectListItem> DeveloperSelectList { get; set; }
         public IEnumerable<SelectListItem> SubmitterSelectList { get; set; }
         public IEnumerable<SelectListItem> ProjectSelectList { get; set; }

@@ -43,8 +43,8 @@ namespace Falcon_Bug_Tracker.Controllers
                         FullName = user.FullName,
                         RoleName = userHelper.ListUserRoles(user.Id).FirstOrDefault(),
                         Email = user.Email,
-                        ProjectNames = projHelper.ListUserProjects(user.Id).Select(p => p.Name).ToList(),
-                        ProjectIds = projHelper.ListUserProjects(user.Id).Select(p => p.Id).ToList()
+                        
+                        Projects = projHelper.ListUserProjects(user.Id).ToList()
 
                     });
                 }
@@ -233,11 +233,22 @@ namespace Falcon_Bug_Tracker.Controllers
                 ProjectId = project.Id,
                 ProjectName = project.Name,
                 ProjectDescription = project.Description,
-                ProjectManager = db.Users.Find(project.ProjectManagerId).FullName,
                 Created = project.Created,
-                Updated = project.Updated
+                Updated = project.Updated,
             };
-
+            if (project.ProjectManagerId != null)
+            {
+                projectDetailsVM.ProjectManager = db.Users.Find(project.ProjectManagerId).FullName;
+            }
+            var projUsers = projHelper.UsersOnProject(project.Id);
+            foreach(var user in projUsers)
+            {
+                projectDetailsVM.Users.Add(new UserInfoVM
+                {
+                    FullName = user.FullName,
+                    RoleName = userHelper.ListUserRoles(user.Id).FirstOrDefault()
+                });
+            }
 
             return View(projectDetailsVM);
         }
@@ -275,7 +286,8 @@ namespace Falcon_Bug_Tracker.Controllers
                 
                 db.Projects.Add(project);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                var projId = project.Id;
+                return RedirectToAction("Details", new { id = projId });
             }
 
             return View(projectCreate);
@@ -301,7 +313,7 @@ namespace Falcon_Bug_Tracker.Controllers
             var projectEdit = new ProjectEditVM();
             projectEdit.Project = project;
             var pmUsers= userHelper.UsersInRole("ProjectManager");
-            projectEdit.ProjectManagers = new SelectList(pmUsers, "Id", "FullName");
+            projectEdit.ProjectManagers = new SelectList(pmUsers, "Id", "FullName", project.ProjectManagerId);
 
             return View(projectEdit);
         }
@@ -344,6 +356,7 @@ namespace Falcon_Bug_Tracker.Controllers
         }
 
         // POST: Projects/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

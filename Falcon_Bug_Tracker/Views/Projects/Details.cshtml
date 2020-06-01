@@ -13,9 +13,12 @@
 
 
     <div class="row">
-        <div class="col-5">
+        <div class="col-6">
             <div class="card">
                 <div class="card-body">
+                    <div class="page-title-box">
+                        <h4 class="page-title">Project Details</h4>
+                    </div>
                     <dl class="class=" row mb-0"">
                         <dt class="col-sm-3">
                             @Html.DisplayNameFor(model => model.ProjectName)
@@ -60,9 +63,39 @@
                     </dl>
                 </div>
                 <p class="p-3">
-                    @Html.ActionLink("Edit", "Edit", new { id = Model.ProjectId }, new { @class="btn btn-primary m-1"})
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.ProjectId }, new { @class = "btn btn-primary m-1" })
                     @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light m-1" })
                 </p>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="page-title-box">
+                        <h4 class="page-title">Assigned Users</h4>
+                    </div>
+                    <table id="basic-datatable" class="table dt-responsive">
+                        <thead>
+                            <tr>
+                                <th class="all">Name</th>
+                                <th class="all">Role</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var user in Model.Users)
+                            {
+                                <tr>
+                                    <td>@user.FullName</td>
+                                    <td>@user.RoleName</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                    @Html.ActionLink("Assign Users", "ManageProjectAssignments", null, new { @class = "btn btn-primary m-1" })
+
+                </div>
             </div>
         </div>
     </div>

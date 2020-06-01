@@ -183,11 +183,13 @@ namespace Falcon_Bug_Tracker.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model, string FirstName, string LastName)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = FirstName, LastName = LastName };
+                user.FullName = $"{LastName}, {FirstName}";
+                user.AvatarPath = "/Images/Avatars/avatar_default.png";
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -239,7 +241,7 @@ namespace Falcon_Bug_Tracker.Controllers
             if (ModelState.IsValid)
             {
                 var user = await UserManager.FindByNameAsync(model.Email);
-                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                if (user == null)
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
@@ -269,7 +271,7 @@ namespace Falcon_Bug_Tracker.Controllers
                 }
             }
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return View("ForgotPasswordConfirmation");
         }
 
         //

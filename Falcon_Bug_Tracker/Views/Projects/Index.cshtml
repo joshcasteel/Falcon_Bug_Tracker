@@ -29,74 +29,6 @@
         </div>
     </div>
 
-    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
-    {
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="header-title">All Projects</h4>
-                        <table id="basic-datatable" class="table dt-responsive nowrap w-100">
-                            <thead>
-                                <tr role="row">
-                                    <th>
-                                        @Html.DisplayName("Name")
-                                    </th>
-                                    <th>
-                                        @Html.DisplayName("Description")
-                                    </th>
-                                    <th>
-                                        @Html.DisplayName("Project Manager")
-                                    </th>
-                                    <th>
-                                        @Html.DisplayName("Number of Tickets")
-                                    </th>
-                                    <th>
-                                        @Html.DisplayName("Created")
-                                    </th>
-                                    <th>
-                                        @Html.DisplayName("Updated")
-                                    </th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model.AllProjects)
-                                {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Name)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Description)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ProjectManagerId)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Tickets.Count)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Created)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Updated)
-                                        </td>
-                                        <td>
-                                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
-
     @if (Model.MyProjects != null)
     {
         <div class="row">
@@ -108,13 +40,10 @@
                         <table id="basic-datatable2" class="table dt-responsive nowrap w-100">
                             <thead>
                                 <tr role="row">
-                                    <th>
+                                    <th class="all">
                                         @Html.DisplayName("Name")
                                     </th>
-                                    <th>
-                                        @Html.DisplayName("Description")
-                                    </th>
-                                    <th>
+                                    <th class="all">
                                         @Html.DisplayName("Project Manager")
                                     </th>
                                     <th>
@@ -126,7 +55,7 @@
                                     <th>
                                         @Html.DisplayName("Updated")
                                     </th>
-                                    <th></th>
+                                    <th class="all"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -135,9 +64,6 @@
                                     <tr>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Name)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Description)
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.ProjectManagerId)
@@ -153,8 +79,68 @@
                                         </td>
                                         <td>
                                             @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                            @Html.ActionLink("Details", "Details", new { id = item.Id })
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+    {
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title">All Projects</h4>
+                        <table id="basic-datatable" class="table dt-responsive nowrap w-100">
+                            <thead>
+                                <tr role="row">
+                                    <th class="all">
+                                        @Html.DisplayName("Name")
+                                    </th>
+                                    <th class="all">
+                                        @Html.DisplayName("Project Manager")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Number of Tickets")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Created")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Updated")
+                                    </th>
+                                    <th class="all"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.AllProjects)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ProjectManagerId)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Tickets.Count)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Created)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Updated)
+                                        </td>
+                                        <td>
+                                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                            @Html.ActionLink("Details", "Details", new { id = item.Id })
                                         </td>
                                     </tr>
                                 }

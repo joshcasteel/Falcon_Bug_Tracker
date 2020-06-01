@@ -12,7 +12,7 @@
     <meta content="A fully featured issue tracker built on .NET MVC 5" name="description" />
     <meta content="Bug Tracker" name="Josh Casteel" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="~/Images/favicon.png">
+    <link rel="shortcut icon" href="~/Images/favicon.ico">
 
     <!-- App css -->
     <link href="~/Content/icons.min.css" rel="stylesheet" />
@@ -64,7 +64,7 @@
                                     <button class="btn btn-primary" type="submit"> Log In </button>
                                 </div>
                                 <div class="form-group mb-0 text-center mt-3">
-                                    @Html.ActionLink("Demo Login", "DemoLogin", "Account")
+                                    @Html.ActionLink("Demo Login", "DemoLogin", "Account", null, new { @class="btn btn-outline-primary" })
                                 </div>
                                 
 
@@ -76,6 +76,7 @@
                     <div class="row mt-3">
                         <div class="col-12 text-center">
                             <p class="text-muted">Don't have an account? <a href="@Url.Action("Register", "Account")" class="text-muted ml-1"><b>Sign Up</b></a></p>
+                            <p class="text-muted">Forgot your password? <a href="@Url.Action("ForgotPassword", "Account")" class="text-muted ml-1"><b>Reset Password</b></a></p>
                         </div> <!-- end col -->
                     </div>
                     <!-- end row -->

@@ -44,22 +44,10 @@
                     <li class="side-nav-title side-nav-item">Navigation</li>
 
                     <li class="side-nav-item">
-                        <a href="javascript: void(0);" class="side-nav-link">
+                        <a href="@Url.Action("Dashboard", "Home")" class="side-nav-link">
                             <i class="uil-home-alt"></i>
-                            <span> Dashboards </span>
+                            <span> Dashboard </span>
                         </a>
-                        <ul class="side-nav-second-level" aria-expanded="false">
-                            <li>
-                                <a href="@Url.Action("Dashboard", "Home")">Projects</a>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("Index", "Tickets")">Tickets</a>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("Dashboard2", "Home")">Users</a>
-                            </li>
-
-                        </ul>
                     </li>
                     <li class="side-nav-item">
                         <a href="javascript: void(0);" class="side-nav-link">
@@ -168,17 +156,7 @@
                     <button class="button-menu-mobile open-left disable-btn">
                         <i class="mdi mdi-menu"></i>
                     </button>
-                    <div class="app-search">
-                        <form>
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search...">
-                                <span class="mdi mdi-magnify"></span>
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" type="submit">Search</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                    
                 </div>
                 <!-- end Topbar -->
 

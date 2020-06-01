@@ -29,10 +29,13 @@
                             <thead>
                                 <tr>
                                     <th>
-                                        @Html.DisplayName("DeveloperId")
+                                        @Html.DisplayName("Ticket Priority")
                                     </th>
                                     <th>
-                                        @Html.DisplayName("Ticket Priority")
+                                        @Html.DisplayName("Title")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("DeveloperId")
                                     </th>
                                     <th>
                                         @Html.DisplayName("Project")
@@ -41,13 +44,7 @@
                                         @Html.DisplayName("Ticket Status")
                                     </th>
                                     <th>
-                                        @Html.DisplayName("Submitter")
-                                    </th>
-                                    <th>
                                         @Html.DisplayName("Ticket Type")
-                                    </th>
-                                    <th>
-                                        @Html.DisplayName("Title")
                                     </th>
                                     <th>
                                         @Html.DisplayName("Description")
@@ -55,10 +52,13 @@
                                     <th>
                                         @Html.DisplayName("Created")
                                     </th>
-                                    <th>
+                                    <th class="all">
                                         @Html.DisplayName("Updated")
                                     </th>
-                                    <th></th>
+                                    <th>
+                                        @Html.DisplayName("Submitter")
+                                    </th>
+                                    <th class="all"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -66,10 +66,13 @@
                                 {
                                     <tr>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Developer.FullName)
+                                            @Html.DisplayFor(modelItem => item.Priority.Name)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Priority.Name)
+                                            @Html.DisplayFor(modelItem => item.Title)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Developer.FullName)
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Project.Name)
@@ -78,13 +81,7 @@
                                             @Html.DisplayFor(modelItem => item.Status.Name)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Submitter.FullName)
-                                        </td>
-                                        <td>
                                             @Html.DisplayFor(modelItem => item.TicketType.Name)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Title)
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Description)
@@ -96,9 +93,11 @@
                                             @Html.DisplayFor(modelItem => item.Updated)
                                         </td>
                                         <td>
+                                            @Html.DisplayFor(modelItem => item.Submitter.FullName)
+                                        </td>
+                                        <td>
                                             @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                            @Html.ActionLink("Details", "Details", new { id = item.Id })
                                         </td>
                                     </tr>
                                 }
@@ -122,10 +121,13 @@
                             <thead>
                                 <tr>
                                     <th>
-                                        @Html.DisplayName("DeveloperId")
+                                        @Html.DisplayName("Ticket Priority")
                                     </th>
                                     <th>
-                                        @Html.DisplayName("Ticket Priority")
+                                        @Html.DisplayName("Title")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("DeveloperId")
                                     </th>
                                     <th>
                                         @Html.DisplayName("Project")
@@ -134,13 +136,7 @@
                                         @Html.DisplayName("Ticket Status")
                                     </th>
                                     <th>
-                                        @Html.DisplayName("Submitter")
-                                    </th>
-                                    <th>
                                         @Html.DisplayName("Ticket Type")
-                                    </th>
-                                    <th>
-                                        @Html.DisplayName("Title")
                                     </th>
                                     <th>
                                         @Html.DisplayName("Description")
@@ -148,10 +144,13 @@
                                     <th>
                                         @Html.DisplayName("Created")
                                     </th>
-                                    <th>
+                                    <th class="all">
                                         @Html.DisplayName("Updated")
                                     </th>
-                                    <th></th>
+                                    <th>
+                                        @Html.DisplayName("Submitter")
+                                    </th>
+                                    <th class="all"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -159,10 +158,13 @@
                                 {
                                     <tr>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Developer.FullName)
+                                            @Html.DisplayFor(modelItem => item.Priority.Name)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Priority.Name)
+                                            @Html.DisplayFor(modelItem => item.Title)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Developer.FullName)
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Project.Name)
@@ -171,13 +173,7 @@
                                             @Html.DisplayFor(modelItem => item.Status.Name)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Submitter.FullName)
-                                        </td>
-                                        <td>
                                             @Html.DisplayFor(modelItem => item.TicketType.Name)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Title)
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Description)
@@ -189,9 +185,11 @@
                                             @Html.DisplayFor(modelItem => item.Updated)
                                         </td>
                                         <td>
+                                            @Html.DisplayFor(modelItem => item.Submitter.FullName)
+                                        </td>
+                                        <td>
                                             @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                            @Html.ActionLink("Details", "Details", new { id = item.Id })
                                         </td>
                                     </tr>
                                 }
@@ -212,10 +210,13 @@
                         <thead>
                             <tr>
                                 <th>
-                                    @Html.DisplayName("DeveloperId")
+                                    @Html.DisplayName("Ticket Priority")
                                 </th>
                                 <th>
-                                    @Html.DisplayName("Ticket Priority")
+                                    @Html.DisplayName("Title")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("DeveloperId")
                                 </th>
                                 <th>
                                     @Html.DisplayName("Project")
@@ -224,13 +225,7 @@
                                     @Html.DisplayName("Ticket Status")
                                 </th>
                                 <th>
-                                    @Html.DisplayName("Submitter")
-                                </th>
-                                <th>
                                     @Html.DisplayName("Ticket Type")
-                                </th>
-                                <th>
-                                    @Html.DisplayName("Title")
                                 </th>
                                 <th>
                                     @Html.DisplayName("Description")
@@ -238,10 +233,13 @@
                                 <th>
                                     @Html.DisplayName("Created")
                                 </th>
-                                <th>
+                                <th class="all">
                                     @Html.DisplayName("Updated")
                                 </th>
-                                <th></th>
+                                <th>
+                                    @Html.DisplayName("Submitter")
+                                </th>
+                                <th class="all"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -249,10 +247,13 @@
                             {
                                 <tr>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Developer.FullName)
+                                        @Html.DisplayFor(modelItem => item.Priority.Name)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Priority.Name)
+                                        @Html.DisplayFor(modelItem => item.Title)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Developer.FullName)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Project.Name)
@@ -261,13 +262,7 @@
                                         @Html.DisplayFor(modelItem => item.Status.Name)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Submitter.FullName)
-                                    </td>
-                                    <td>
                                         @Html.DisplayFor(modelItem => item.TicketType.Name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Title)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Description)
@@ -279,9 +274,11 @@
                                         @Html.DisplayFor(modelItem => item.Updated)
                                     </td>
                                     <td>
+                                        @Html.DisplayFor(modelItem => item.Submitter.FullName)
+                                    </td>
+                                    <td>
                                         @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                        @Html.ActionLink("Details", "Details", new { id = item.Id })
                                     </td>
                                 </tr>
                             }

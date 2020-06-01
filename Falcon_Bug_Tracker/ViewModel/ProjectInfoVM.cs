@@ -39,6 +39,12 @@ namespace Falcon_Bug_Tracker.ViewModel
         public string ProjectManager { get; set; }
         public DateTime Created { get; set; }
         public DateTime? Updated { get; set; }
+        public List<UserInfoVM> Users { get; set; }
+
+        public ProjectDetailsVM()
+        {
+            Users = new List<UserInfoVM>();
+        }
     }
 
     public class AddUsersToProjectVM
@@ -81,6 +87,13 @@ namespace Falcon_Bug_Tracker.ViewModel
         public int TicketUi { get; set; }
         public int TicketDefect { get; set; }
         public int TicketOther { get; set; }
-        
+
+        public int TicketCritical { get; set; }
+        public int TicketHigh { get; set; }
+        public int TicketLow { get; set; }
+        public int TicketOnHold { get; set; }
+        public IEnumerable<Ticket> RecentTickets { get; set; }
+
+
     }
 }

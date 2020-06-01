@@ -1,5 +1,5 @@
 ﻿@model Falcon_Bug_Tracker.ViewModel.TicketDetailsVM
-
+@using Microsoft.AspNet.Identity
 
 <div class="container-fluid">
     <h4>Ticket Details</h4>
@@ -124,7 +124,7 @@
 
             <div class="card">
                 <div class="card-header">
-                    <h4 class="my-1">Comments @Model.Ticket.Comments.Count()</h4>
+                    <h4 class="my-1">Comments (@Model.Ticket.Comments.Count())</h4>
                 </div>
                 <div class="card-body">
                     @foreach (var comment in Model.Ticket.Comments)
@@ -132,8 +132,12 @@
                         <div class="media">
                             <img class="mr-2 rounded-circle" src="@comment.User.AvatarPath" alt="Generic placeholder image" height="32">
                             <div class="media-body">
-                                <h5 class="mt-0">@comment.UserId <small class="text-muted float-right">@comment.Created</small></h5>
-                                <h5 class="mt-0"><small class="text-muted float-right"><a href="@Url.Action("Edit", "TicketComments", new { id = comment.Id, created = comment.Created })"><i class="uil uil-edit mr-1"></i>Edit</a></small></h5>
+                                <h5 class="mt-0">@comment.User.FullName <small class="text-muted float-right">@comment.Created</small></h5>
+                                @if (comment.UserId == User.Identity.GetUserId())
+                                {
+                                    <h5 class="mt-0"><small class="text-muted float-right"><a href="@Url.Action("Edit", "TicketComments", new { id = comment.Id, created = comment.Created })"><i class="uil uil-edit mr-1"></i>Edit</a></small></h5>
+                                }
+
                                 @comment.Body
 
                             </div>
@@ -178,7 +182,7 @@
 
                             <div class="col-md-12">
                                 <input name="newAttachment" type="file" class="form-control-file border" />
-                                @Html.ValidationMessageFor(model => model.Ticket.Attachments, "", new { @class = "text-danger" })
+                                @if(TempData["Alert"] != null) { <p class="text-danger font-14 pt-1">@TempData["Alert"]</p>}
                             </div>
                         </div>
                         <div class="form-group">
@@ -215,7 +219,8 @@
                             </div>
                         </div>
                     }
-
+                    @if(User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                    { @Html.ActionLink("Edit Attachments", "Index", "TicketAttachments", null, new { @class = "btn btn-light mt-2"} )}
                 </div>
             </div>
             <div class="card">
@@ -224,24 +229,24 @@
                     <table id="basic-datatable" class="table dt-responsive">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Changed</th>
-                                <th>Date</th>
-                                <th>Old Value</th>
-                                <th>New Value</th>
+                                <th class="all">Name</th>
+                                <th class="all">Changed</th>
+                                <th class="all">Date</th>
+                                <th class="all">Old Value</th>
+                                <th class="all">New Value</th>
                             </tr>
                         </thead>
 
                         <tbody>
                             @foreach (var history in Model.TicketHistory)
                             {
-                            <tr>
-                                <td>@history.User.FullName</td>
-                                <td>@history.Property</td>
-                                <td>@history.ChangedOn.ToString("MM/dd/yyyy hh:mm")</td>
-                                <td>@history.OldValue</td>
-                                <td>@history.NewValue</td>
-                            </tr>
+                                <tr>
+                                    <td>@history.User.FullName</td>
+                                    <td>@history.Property</td>
+                                    <td>@history.ChangedOn.ToString("MM/dd/yyyy hh:mm")</td>
+                                    <td>@history.OldValue</td>
+                                    <td>@history.NewValue</td>
+                                </tr>
                             }
 
                         </tbody>

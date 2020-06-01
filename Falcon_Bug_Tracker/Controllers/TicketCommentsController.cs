@@ -31,37 +31,14 @@ namespace Falcon_Bug_Tracker.Controllers
             if (User.IsInRole("ProjectManager"))
             {
                 List<TicketComment> assignedTicketComments = new List<TicketComment>();
-                var assignedProjects = db.Projects.Where(p => p.ProjectManagerId == userId).ToList();
-                var tickets = db.Tickets.ToList();
-                
-                foreach (var project in assignedProjects)
-                {
-                    foreach (var ticket in tickets)
-                    {
-                        //getting tickets for projects assigned to
-                        if (ticket.ProjectId == project.Id)
-                        {
-                            foreach(var comment in ticket.Comments)
-                            {
-                                assignedTicketComments.Add(comment);
-                            }
-                        }
-                    }
-                }
+                assignedTicketComments = db.Projects.Where(p => p.ProjectManagerId == userId).SelectMany(t => t.Tickets).SelectMany(c => c.Comments).ToList();
                 return View(assignedTicketComments);
             }
 
             if(User.IsInRole("Developer"))
             {
-                var assignedTickets = db.Tickets.Where(t => t.DeveloperId == userId);
                 List<TicketComment> assignedTicketComments = new List<TicketComment>();
-                foreach(var item in assignedTickets)
-                {
-                    foreach(var comment in item.Comments)
-                    {
-                        assignedTicketComments.Add(comment);
-                    }
-                }
+                assignedTicketComments = db.Tickets.Where(t => t.DeveloperId == userId).SelectMany(c => c.Comments).ToList();
                 return View(assignedTicketComments);
             }
 
@@ -84,7 +61,7 @@ namespace Falcon_Bug_Tracker.Controllers
             {
                 return HttpNotFound();
             }
-            return View(ticketComment);
+            return RedirectToAction("Details", "Tickets", new { id = ticketComment.TicketId });
         }
 
         // GET: TicketComments/Create
@@ -105,7 +82,7 @@ namespace Falcon_Bug_Tracker.Controllers
             var userId = User.Identity.GetUserId();
             if (ModelState.IsValid)
             {
-                
+                    
                     ticketComment.Created = DateTime.Now;
                     ticketComment.UserId = User.Identity.GetUserId();
                     db.TicketComments.Add(ticketComment);

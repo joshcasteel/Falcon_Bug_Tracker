@@ -122,10 +122,7 @@ namespace Falcon_Bug_Tracker.Controllers
             ticketDetails.TicketHistory = db.TicketHistories.Where(t => t.TicketId == ticket.Id).OrderByDescending(d => d.ChangedOn).ToList();
             ticketDetails.ticketAttachments = db.TicketAttachments.Where(t => t.TicketId == ticket.Id).ToList();
 
-            foreach (var comment in ticket.Comments)
-            {
-                comment.UserId = db.Users.Find(comment.UserId).FullName;
-            }
+            
 
             if (User.IsInRole("Admin"))
             {
@@ -134,16 +131,13 @@ namespace Falcon_Bug_Tracker.Controllers
 
             if (User.IsInRole("ProjectManager"))
             {
-                var assignedProjects = db.Projects.Where(p => p.ProjectManagerId == userId).ToList();
-                foreach(var project in assignedProjects)
-                {
-                    if(project.Id == ticket.ProjectId)
-                    {
+                if(ticket.Project.ProjectManagerId == userId)
+                { 
                         return View(ticketDetails);
-                    }
+                }
                     TempData["Alert"] = "You can only view tickets for your assigned projects";
                     return RedirectToAction("Index", "Tickets", TempData);
-                }
+                
             }
 
             if(User.IsInRole("Developer"))
@@ -181,6 +175,12 @@ namespace Falcon_Bug_Tracker.Controllers
                 ViewBag.ProjectId = new SelectList(submitterProjects, "Id", "Name");
                 ViewBag.SubmitterId = new SelectList(db.Users, "Id", "FullName");
                 ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name");
+
+                if(submitterProjects.Count == 0)
+                {
+                    TempData["Alert"] = "You haven't been assigned any projects. Tickets require a project. Please get with a Project Manager.";
+                }
+
                 return View();
             }
             TempData["Alert"] = "You are not authorized to create tickets";
@@ -201,12 +201,13 @@ namespace Falcon_Bug_Tracker.Controllers
                 ticket.Created = DateTime.Now;
                 db.Tickets.Add(ticket);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Tickets", new { id = ticket.Id });
             }
-
+            var userId = User.Identity.GetUserId();
+            var submitterProjects = projHelper.ListUserProjects(userId);
             ViewBag.DeveloperId = new SelectList(db.Users, "Id", "FullName", ticket.DeveloperId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
-            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
+            ViewBag.ProjectId = new SelectList(submitterProjects, "Id", "Name", ticket.ProjectId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusId);
             ViewBag.SubmitterId = new SelectList(db.Users, "Id", "FullName", ticket.SubmitterId);
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);

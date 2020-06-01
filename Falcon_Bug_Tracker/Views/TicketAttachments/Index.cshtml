@@ -16,7 +16,7 @@
                                         @Html.DisplayNameFor(model => model.Ticket.SubmitterId)
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.User.FirstName)
+                                        @Html.DisplayName("Ticket Title")
                                     </th>
                                     <th>
                                         @Html.DisplayNameFor(model => model.FilePath)
@@ -27,10 +27,7 @@
                                     <th>
                                         @Html.DisplayNameFor(model => model.Created)
                                     </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.FileUrl)
-                                    </th>
-                                    <th></th>
+                                    <th class="all"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -38,10 +35,10 @@
                                 {
                                     <tr>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Ticket.SubmitterId)
+                                            @Html.DisplayFor(modelItem => item.Ticket.Submitter.FullName)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.User.FirstName)
+                                            @Html.DisplayFor(modelItem => item.Ticket.Title)
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.FilePath)
@@ -51,9 +48,6 @@
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Created)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.FileUrl)
                                         </td>
                                         <td>
                                             @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |

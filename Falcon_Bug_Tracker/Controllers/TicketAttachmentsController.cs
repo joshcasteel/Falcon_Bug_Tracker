@@ -17,13 +17,14 @@ namespace Falcon_Bug_Tracker.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        [Authorize(Roles = "Admin, ProjectManager")]
         // GET: TicketAttachments
         public ActionResult Index()
         {
             var ticketAttachments = db.TicketAttachments.Include(t => t.Ticket).Include(t => t.User);
             return View(ticketAttachments.ToList());
         }
-
+        [Authorize(Roles = "Admin, ProjectManager")]
         // GET: TicketAttachments/Details/5
         public ActionResult Details(int? id)
         {
@@ -42,9 +43,8 @@ namespace Falcon_Bug_Tracker.Controllers
         // GET: TicketAttachments/Create
         public ActionResult Create()
         {
-            ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId");
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
-            return View();
+            TempData["Alert"] = "Ticket Attachments are created on the ticket details view.";
+            return RedirectToAction("Index", "Tickets");
         }
 
         // POST: TicketAttachments/Create
@@ -54,7 +54,7 @@ namespace Falcon_Bug_Tracker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "TicketId, FileName")] TicketAttachment ticketAttachment, HttpPostedFileBase newAttachment)
         {
-            if (ModelState.IsValid)
+            if (newAttachment != null)
             {
 
                 var uploadFileName = Path.GetFileNameWithoutExtension(newAttachment.FileName);
@@ -74,13 +74,14 @@ namespace Falcon_Bug_Tracker.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Details", "Tickets", new { id = ticketAttachment.TicketId });
             }
-
+            TempData["Alert"] = "Please select a file";
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId", ticketAttachment.TicketId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketAttachment.UserId);
-            return View(ticketAttachment);
+            return RedirectToAction("Details", "Tickets", new { id = ticketAttachment.TicketId });
         }
 
         // GET: TicketAttachments/Edit/5
+        [Authorize(Roles = "Admin, ProjectManager")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -114,7 +115,7 @@ namespace Falcon_Bug_Tracker.Controllers
             ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketAttachment.UserId);
             return View(ticketAttachment);
         }
-
+        [Authorize(Roles = "Admin, ProjectManager")]
         // GET: TicketAttachments/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -138,7 +139,7 @@ namespace Falcon_Bug_Tracker.Controllers
             TicketAttachment ticketAttachment = db.TicketAttachments.Find(id);
             db.TicketAttachments.Remove(ticketAttachment);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Tickets", new { id = ticketAttachment.TicketId });
         }
 
         protected override void Dispose(bool disposing)

@@ -78,14 +78,14 @@
                                             @Html.DisplayFor(model => user.Email)
                                         </td>
                                         <td>
-                                            @foreach (var projectName in user.ProjectNames)
+                                            @foreach (var projectName in user.Projects)
                                             {
-                                                @projectName
+                                                <a href="@Url.Action("Details", "Projects", new { id = projectName.Id })">@projectName.Name</a>
                                                 <br />
                                             }
                                         </td>
                                         <td>
-                                            @foreach (var projId in user.ProjectNames)
+                                            @foreach (var projId in user.Projects)
                                             {
                                                 @Html.ActionLink("Remove", "RemoveUserFromProject", new { userId = user.UserId, projectId = projId })
                                                 <br />
