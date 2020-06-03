@@ -211,6 +211,7 @@
     <Compile Include="ViewModel\ProjectInfoVM.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Attachments\problem-screenshot-637266051410691218.PNG" />
     <Content Include="Content\app-dark.min.css" />
     <Content Include="Content\app.min.css" />
     <Content Include="Content\buttons.bootstrap4.css" />
@@ -258,7 +259,7 @@
     <Content Include="Scripts\component.fileupload.js" />
     <Content Include="Scripts\demo.datatable-init.js" />
     <Content Include="Views\Admin\ManageRoles.cshtml" />
-    <None Include="Properties\PublishProfiles\casteelbugtracker - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\casteeltracker - Web Deploy.pubxml" />
     <None Include="Views\Home\Dashboard.cshtml" />
     <Content Include="Images\Avatars\avatar_default.png" />
     <Content Include="Images\bg-pattern-light.svg" />
@@ -365,7 +366,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Attachments\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
