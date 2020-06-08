@@ -1,6 +1,7 @@
 ﻿using Falcon_Bug_Tracker.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Dynamic;
 using System.Linq;
 using System.Web;
@@ -10,10 +11,13 @@ namespace Falcon_Bug_Tracker.ViewModel
 {
     public class TicketInfoVM
     {
+        [Display(Name = "Developer")]
         public SelectList DeveloperId { get; set; }
-        
+        [Display(Name = "Ticket Priority")]
         public SelectList TicketPriorityId { get; set; }
+        [Display(Name = "Ticket Status")]
         public SelectList TicketStatusId { get; set; }
+        [Display(Name = "Ticket Type")]
         public SelectList TicketTypeId { get; set; }
         
         public string Title { get; set; }

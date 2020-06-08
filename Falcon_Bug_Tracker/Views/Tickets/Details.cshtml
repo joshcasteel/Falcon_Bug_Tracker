@@ -2,9 +2,6 @@
 @using Microsoft.AspNet.Identity
 
 <div class="container-fluid">
-    <h4>Ticket Details</h4>
-    <hr />
-
     <div class="row">
         <div class="col-xl-7 col-lg-6">
             <!-- project card -->
@@ -17,9 +14,7 @@
                             </a>
                         </div> <!-- end dropdown menu-->
                     </div>
-
                     <h3 class="mt-3">@Model.Ticket.Title</h3>
-
                     <div class="row">
                         <div class="col-2">
                             <!-- assignee -->
@@ -34,7 +29,6 @@
                             </div>
                             <!-- end assignee -->
                         </div> <!-- end col -->
-
                         <div class="col-2">
                             <p class="mt-2 mb-1 text-muted font-weight-bold font-12 text-uppercase">Project</p>
                             <div class="media">
@@ -185,12 +179,10 @@
                 <div class="card-body">
                     <h5 class="card-title mb-3">Attachments</h5>
                     @using (Html.BeginForm("Create", "TicketAttachments", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                    //<form action="/TicketAttachments/Create" method="post" class="dropzone dz-clickable" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews" data-upload-preview-template="#uploadPreviewTemplate">
                     {
                         @Html.AntiForgeryToken()
                         @Html.Hidden("TicketId", Model.Ticket.Id)
                         <div class="form-group">
-
                             <div class="col-md-12">
                                 <input name="newAttachment" type="file" class="form-control-file border" />
                                 @if(TempData["Alert"] != null) { <p class="text-danger font-14 pt-1">@TempData["Alert"]</p>}
@@ -218,7 +210,7 @@
                                     </div>
                                     <div class="col pl-0">
                                         <a href="@Url.Action("Details", "TicketAttachments", new { id = attachment.Id })" class="text-muted font-weight-bold">@attachment.Description</a>
-                                        <p class="mb-0"><small class="text-muted float-left">Uploaded by: @attachment.User.FullName</small></p>
+                                        <p class="mb-0"><small class="text-muted float-left">Uploaded by: @attachment.User.FullName on @attachment.Created.ToString("MM/dd/yyyy")</small></p>
                                     </div>
                                     <div class="col-auto">
                                         <!-- Button -->
@@ -237,14 +229,14 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title mb-3">Ticket History</h5>
-                    <table id="basic-datatable" class="table dt-responsive">
+                    <table id="basic-datatable" class="table dt-responsive nowrap w-100 overflow-hidden">
                         <thead>
                             <tr>
                                 <th class="all">Name</th>
                                 <th class="all">Changed</th>
-                                <th class="all">Date</th>
-                                <th class="all">Old Value</th>
-                                <th class="all">New Value</th>
+                                <th>Date</th>
+                                <th>Old Value</th>
+                                <th>New Value</th>
                             </tr>
                         </thead>
 

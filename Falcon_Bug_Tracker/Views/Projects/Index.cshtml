@@ -16,20 +16,8 @@
 
 
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="page-title-box">
-                <h4 class="page-title">Tickets</h4>
-                @if (Model.MyProjects == null && Model.AllProjects == null)
-                {
-                    <br />
-                    <h5>No projects to display</h5>
-                }
-            </div>
-        </div>
-    </div>
 
-    @if (Model.MyProjects != null)
+    @if (!User.IsInRole("Admin"))
     {
         <div class="row">
             <div class="col-12">

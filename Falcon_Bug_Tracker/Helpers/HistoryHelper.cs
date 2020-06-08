@@ -46,7 +46,7 @@ namespace Falcon_Bug_Tracker.Helpers
                 {
                     ChangedOn = (DateTime)newTicket.Updated,
                     UserId = HttpContext.Current.User.Identity.GetUserId(),
-                    Property = "DeveloperId",
+                    Property = "Developer",
                     OldValue = oldTicket.Developer == null ? "Unassigned" : oldTicket.Developer.FullName,
                     NewValue = newTicket.Developer == null ? "Unassigned" : newTicket.Developer.FullName,
                     TicketId = newTicket.Id
@@ -60,7 +60,7 @@ namespace Falcon_Bug_Tracker.Helpers
                 {
                     ChangedOn = (DateTime)newTicket.Updated,
                     UserId = HttpContext.Current.User.Identity.GetUserId(),
-                    Property = "TicketPriorityId",
+                    Property = "Ticket Priority",
                     OldValue = oldTicket.Priority.Name,
                     NewValue = newTicket.Priority.Name,
                     TicketId = newTicket.Id
@@ -74,7 +74,7 @@ namespace Falcon_Bug_Tracker.Helpers
                 {
                     ChangedOn = (DateTime)newTicket.Updated,
                     UserId = HttpContext.Current.User.Identity.GetUserId(),
-                    Property = "TicketStatusId",
+                    Property = "Ticket Status",
                     OldValue = oldTicket.Status.Name,
                     NewValue = newTicket.Status.Name,
                     TicketId = newTicket.Id
@@ -88,7 +88,7 @@ namespace Falcon_Bug_Tracker.Helpers
                 {
                     ChangedOn = (DateTime)newTicket.Updated,
                     UserId = HttpContext.Current.User.Identity.GetUserId(),
-                    Property = "TicketTypeId",
+                    Property = "Ticket Type",
                     OldValue = oldTicket.TicketType.Name,
                     NewValue = newTicket.TicketType.Name,
                     TicketId = newTicket.Id

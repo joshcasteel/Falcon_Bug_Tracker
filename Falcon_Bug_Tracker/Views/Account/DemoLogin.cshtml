@@ -47,22 +47,59 @@
                                 @Html.AntiForgeryToken()
 
 
-                                <div class="form-group mb-2 text-center">
-                                    <button class="btn btn-primary w-100" type="submit" name="emailKey" value="DemoAdminEmail"> Demo Admin </button>
+                                <div class="card mb-1">
+                                    <div class="card-body" style="margin-bottom: -20px;">
+                                        <div class="form-group text-center">
+                                            <button class="btn btn-primary w-100" type="submit" name="emailKey" value="DemoAdminEmail">Demo Admin</button>
+                                        </div>
+                                        <p class="text-muted text-center">Full control over the application.</p>
+                                    </div>
                                 </div>
-                                <div class="form-group mb-2 text-center">
-                                    <button class="btn btn-success w-100" type="submit" name="emailKey" value="DemoPMEmail"> Demo Project Manager </button>
+
+                                <div class="card mb-1">
+                                    <div class="card-body" style="margin-bottom: -20px;">
+                                        <div class="form-group mb-2 text-center">
+                                            <button class="btn btn-success w-100" type="submit" name="emailKey" value="DemoPMEmail"> Demo Project Manager </button>
+                                        </div>
+                                        <p class="text-muted text-center">Manages projects and user assignment.</p>
+                                    </div>
                                 </div>
-                                <div class="form-group mb-2 text-center">
-                                    <button class="btn btn-info w-100" type="submit" name="emailKey" value="DemoDevEmail"> Demo Developer </button>
+
+                                <div class="card mb-1">
+                                    <div class="card-body" style="margin-bottom: -20px;">
+                                        <div class="form-group mb-2 text-center">
+                                            <button class="btn btn-info w-100" type="submit" name="emailKey" value="DemoDevEmail"> Demo Developer </button>
+                                        </div>
+                                        <p class="text-muted text-center">Manages assigned tickets.</p>
+                                    </div>
                                 </div>
-                                <div class="form-group mb-2 text-center">
-                                    <button class="btn btn-secondary w-100" type="submit" name="emailKey" value="DemoSubEmail"> Demo Submitter </button>
+
+                                <div class="card mb-1">
+                                    <div class="card-body" style="margin-bottom: -20px;">
+                                        <div class="form-group mb-2 text-center">
+                                            <button class="btn btn-secondary w-100" type="submit" name="emailKey" value="DemoSubEmail"> Demo Submitter </button>
+                                        </div>
+                                        
+                                        <p class="text-muted text-center">Creates new tickets.</p>
+                                    </div>
                                 </div>
+
+                                @*<div class="form-group mb-2 text-center">
+                <button class="btn btn-primary w-100 text-left" type="submit" name="emailKey" value="DemoAdminEmail">Demo Admin - Controls everything</button>
+            </div>
+            <div class="form-group mb-2 text-center">
+                <button class="btn btn-success w-100" type="submit" name="emailKey" value="DemoPMEmail"> Demo Project Manager </button>
+            </div>
+            <div class="form-group mb-2 text-center">
+                <button class="btn btn-info w-100" type="submit" name="emailKey" value="DemoDevEmail"> Demo Developer </button>
+            </div>
+            <div class="form-group mb-2 text-center">
+                <button class="btn btn-secondary w-100" type="submit" name="emailKey" value="DemoSubEmail"> Demo Submitter </button>
+            </div>*@
 
                             }
                         </div> <!-- end card-body -->
-                    </div>
+                            </div>
                     <!-- end card -->
 
                     <div class="row mt-3">
