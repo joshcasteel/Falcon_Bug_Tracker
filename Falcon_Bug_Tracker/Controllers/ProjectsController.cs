@@ -68,7 +68,7 @@ namespace Falcon_Bug_Tracker.Controllers
         public ActionResult ManageProjectAssignments(List<string> developerSelectList, List<string> submitterSelectList, List<int> projectSelectList)
         {
             if ((developerSelectList == null && submitterSelectList == null) || projectSelectList == null)
-                return RedirectToAction("ManageProjectAssignment");
+                return RedirectToAction("ManageProjectAssignments");
 
             var userIds = new List<string>();
             if(developerSelectList != null)

@@ -67,7 +67,7 @@
                                             @Html.DisplayFor(model => user.RoleName)
                                         </td>
                                         <td>
-                                            @Html.ActionLink("Remove", "RemoveUserFromRole", new { userId = user.UserId, roleName = user.RoleName })
+                                            @Html.ActionLink("Remove", "RemoveUserFromRole", new { userId = user.UserId, roleName = user.RoleName }, new {@class = "btn btn-light"})
                                         </td>
                                     </tr>
                                 }

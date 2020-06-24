@@ -80,7 +80,7 @@ namespace Falcon_Bug_Tracker.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return RedirectToAction("Index", "Home");
             }
 
             // This doesn't count login failures towards account lockout

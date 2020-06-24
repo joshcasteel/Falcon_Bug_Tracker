@@ -135,8 +135,8 @@ namespace Falcon_Bug_Tracker.Controllers
                 { 
                         return View(ticketDetails);
                 }
-                    TempData["Alert"] = "You can only view tickets for your assigned projects";
-                    return RedirectToAction("Index", "Tickets", TempData);
+                TempData["Alert"] = "You can only view tickets for your assigned projects";
+                return RedirectToAction("Index", "Tickets", TempData);
                 
             }
 

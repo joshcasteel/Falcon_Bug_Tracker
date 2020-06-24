@@ -94,5 +94,9 @@ namespace Falcon_Bug_Tracker.Controllers
             return View(userIndexVM);
         }
 
+        public ActionResult Error()
+        {
+            return View("Shared/Errors");
+        }
     }
 }
