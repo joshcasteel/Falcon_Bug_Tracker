@@ -30,11 +30,15 @@ namespace Falcon_Bug_Tracker.Controllers
 
         public ActionResult ManageProjectAssignments()
         {
+            //Checks if user is in appropriate role, if not they're redirected with warning message.
             if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
             {
+                //create an instance of my view model
                 var assignUsersVM = new AssignUsersVM();
+                //assign all users to a list variable
                 var users = db.Users.ToList();
                 
+                //store user, role and project info in the view model
                 foreach (var user in users)
                 {
                     assignUsersVM.Users.Add(new UserInfoVM
@@ -43,15 +47,15 @@ namespace Falcon_Bug_Tracker.Controllers
                         FullName = user.FullName,
                         RoleName = userHelper.ListUserRoles(user.Id).FirstOrDefault(),
                         Email = user.Email,
-                        
                         Projects = projHelper.ListUserProjects(user.Id).ToList()
-
                     });
                 }
                 
+                //breakout users by role
                 var developers = userHelper.UsersInRole("Developer");
                 var submitters = userHelper.UsersInRole("Submitter");
 
+                //create the selectlists for the view
                 assignUsersVM.DeveloperSelectList = new MultiSelectList(developers, "Id", "FullName");
                 assignUsersVM.SubmitterSelectList = new MultiSelectList(submitters, "Id", "FullName");
                 assignUsersVM.ProjectSelectList = new MultiSelectList(db.Projects, "Id", "Name");
@@ -67,20 +71,28 @@ namespace Falcon_Bug_Tracker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ManageProjectAssignments(List<string> developerSelectList, List<string> submitterSelectList, List<int> projectSelectList)
         {
+            //Check to see if at least one user and one project have been selected
             if ((developerSelectList == null && submitterSelectList == null) || projectSelectList == null)
+            {
+                TempData["Alert"] = "Please select at least one user and project";
                 return RedirectToAction("ManageProjectAssignments");
-
+            }
+            
+            //Container variable to combine the two selectlists of users
             var userIds = new List<string>();
+
+            //Check to see if developers were selected. If so, add to container variable.
             if(developerSelectList != null)
             {
                 userIds.AddRange(developerSelectList);
             }
-            if(submitterSelectList != null)
+            //Check to see if submitters were selected. If so, add to container variable.
+            if (submitterSelectList != null)
             {
                 userIds.AddRange(submitterSelectList);
             }
-           
-
+            
+            //Go through each users selected and add them to each project selected
             foreach(var userId in userIds)
             {
                 foreach(var projectId in projectSelectList)
@@ -95,8 +107,14 @@ namespace Falcon_Bug_Tracker.Controllers
 
         public ActionResult RemoveUserFromProject(string userId, int projectId)
         {
-            projHelper.RemoveUserFromProject(userId, projectId);
-            return RedirectToAction("ManageProjectAssignments");
+            //checks if user is in appropriate role.
+            if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+            {
+                projHelper.RemoveUserFromProject(userId, projectId);
+                return RedirectToAction("ManageProjectAssignments");
+            }
+            TempData["Alert"] = "You are not authorized to assign projects";
+            return RedirectToAction("Index", "Projects");
         }
 
         public ActionResult AssignUsers(int projectId)
