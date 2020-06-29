@@ -93,8 +93,10 @@
 
                         </tbody>
                     </table>
-                    @Html.ActionLink("Assign Users", "ManageProjectAssignments", null, new { @class = "btn btn-primary m-1" })
-
+                    @if (User.IsInRole("ProjectManager"))
+                    {
+                        @Html.ActionLink("Assign Users", "ManageProjectAssignments", null, new { @class = "btn btn-primary m-1" })
+                    }
                 </div>
             </div>
         </div>
