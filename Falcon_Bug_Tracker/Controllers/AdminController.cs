@@ -18,9 +18,9 @@ namespace Falcon_Bug_Tracker.Controllers
         // GET: Admin
         public ActionResult ManageRoles()
         {
+            //combine user and role info into a view model
             var viewData = new List<UserInfoVM>();
-            var users = db.Users.ToList();
-            foreach (var user in users)
+            foreach (var user in db.Users.ToList())
             {
                 viewData.Add(new UserInfoVM
                 {
@@ -30,7 +30,6 @@ namespace Falcon_Bug_Tracker.Controllers
                     RoleName = userRoleHelper.ListUserRoles(user.Id).FirstOrDefault()
                 });
             }
-            
 
             ViewBag.UserIds = new MultiSelectList(db.Users, "Id", "Email");
             ViewBag.RoleName = new SelectList(db.Roles, "Name", "Name");
@@ -40,8 +39,10 @@ namespace Falcon_Bug_Tracker.Controllers
 
         public ActionResult AddUserToRole(List<string> userIds, string roleName)
         {
+            //go through each user selected and add to the selected role
             foreach(var userId in userIds)
             {
+                //check if the user is currently in a role. if so, remove it and add new role.
                 var currentRole = userRoleHelper.ListUserRoles(userId);
                 if(currentRole.Count > 0)
                 {
@@ -55,14 +56,18 @@ namespace Falcon_Bug_Tracker.Controllers
                 }
             }
             
-            
             return RedirectToAction("ManageRoles");
         }
 
 
         public ActionResult RemoveUserFromRole(string userId, string roleName)
         {
-            userRoleHelper.RemoveUserFromRole(userId, roleName);
+            //check if user has role to remove
+            if (roleName != null)
+            {
+                userRoleHelper.RemoveUserFromRole(userId, roleName);
+            }
+            
             return RedirectToAction("ManageRoles");
         }
     }
