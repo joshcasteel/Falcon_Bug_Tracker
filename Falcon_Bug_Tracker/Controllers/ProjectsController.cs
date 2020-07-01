@@ -113,7 +113,7 @@ namespace Falcon_Bug_Tracker.Controllers
                 projHelper.RemoveUserFromProject(userId, projectId);
                 return RedirectToAction("ManageProjectAssignments");
             }
-            TempData["Alert"] = "You are not authorized to assign projects";
+            TempData["Alert"] = "You are not authorized to assign users";
             return RedirectToAction("Index", "Projects");
         }
 
@@ -121,6 +121,7 @@ namespace Falcon_Bug_Tracker.Controllers
         // GET: Projects
         public ActionResult Index()
         {
+            //creates instance of viewmodel 
             ProjectIndexVM projectIndex = new ProjectIndexVM();
             var userId = User.Identity.GetUserId();
 
@@ -128,32 +129,53 @@ namespace Falcon_Bug_Tracker.Controllers
 
             if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
             {
-                projectIndex.AllProjects = db.Projects.ToList();
-                foreach (var project in projectIndex.AllProjects)
+                
+                foreach (var project in db.Projects.ToList())
                 {
-                    if (project.ProjectManagerId != null)
+                    projectIndex.AllProjects.Add(new ProjectDetailsVM
                     {
-                        string fullName = db.Users.Find(project.ProjectManagerId).FullName;
-                        project.ProjectManagerId = fullName;
-                    }
+                        ProjectId = project.Id,
+                        ProjectName = project.Name,
+                        ProjectDescription = project.Description,
+                        ProjectManager = db.Users.Find(project.ProjectManagerId).FullName,
+                        Created = project.Created,
+                        Updated = project.Updated,
+                        TicketCount = project.Tickets.Count()
+                    });
                 }
 
-                projectIndex.MyProjects = db.Projects.Where(p => p.ProjectManagerId == userId).ToList();
+                var myProjects =  db.Projects.Where(p => p.ProjectManagerId == userId).ToList();
+                foreach (var project in myProjects)
+                {
+                    projectIndex.MyProjects.Add(new ProjectDetailsVM
+                    {
+                        ProjectId = project.Id,
+                        ProjectName = project.Name,
+                        ProjectDescription = project.Description,
+                        ProjectManager = db.Users.Find(project.ProjectManagerId).FullName,
+                        Created = project.Created,
+                        Updated = project.Updated,
+                        TicketCount = project.Tickets.Count()
+                    });
+                }
                 
-
                 return View(projectIndex);
             }
 
-
-            projectIndex.MyProjects = projHelper.ListUserProjects(userId).ToList();
-            foreach (var project in projectIndex.MyProjects)
+            foreach (var project in projHelper.ListUserProjects(userId).ToList())
             {
-                if (project.ProjectManagerId != null)
+                projectIndex.MyProjects.Add(new ProjectDetailsVM
                 {
-                    string fullName = db.Users.Find(project.ProjectManagerId).FullName;
-                    project.ProjectManagerId = fullName;
-                }
+                    ProjectId = project.Id,
+                    ProjectName = project.Name,
+                    ProjectDescription = project.Description,
+                    ProjectManager = db.Users.Find(project.ProjectManagerId).FullName,
+                    Created = project.Created,
+                    Updated = project.Updated,
+                    TicketCount = project.Tickets.Count()
+                });
             }
+        
 
             return View(projectIndex);
         }

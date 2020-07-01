@@ -10,9 +10,14 @@ namespace Falcon_Bug_Tracker.ViewModel
 {
     public class ProjectIndexVM
     {
-        public List<Project> AllProjects { get; set; }
-        public List<Project> MyProjects { get; set; }
+        public List<ProjectDetailsVM> AllProjects { get; set; }
+        public List<ProjectDetailsVM> MyProjects { get; set; }
 
+        public ProjectIndexVM()
+        {
+            AllProjects = new List<ProjectDetailsVM>();
+            MyProjects = new List<ProjectDetailsVM>();
+        }
     }
 
     public class ProjectCreateVM
@@ -40,6 +45,7 @@ namespace Falcon_Bug_Tracker.ViewModel
         public DateTime Created { get; set; }
         public DateTime? Updated { get; set; }
         public List<UserInfoVM> Users { get; set; }
+        public int TicketCount { get; set; }
 
         public ProjectDetailsVM()
         {

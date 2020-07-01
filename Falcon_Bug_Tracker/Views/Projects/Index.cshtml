@@ -51,13 +51,13 @@
                                 {
                                     <tr>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Name)
+                                            @Html.DisplayFor(modelItem => item.ProjectName)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.ProjectManagerId)
+                                            @Html.DisplayFor(modelItem => item.ProjectManager)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Tickets.Count)
+                                            @Html.DisplayFor(modelItem => item.TicketCount)
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Created)
@@ -66,8 +66,8 @@
                                             @Html.DisplayFor(modelItem => item.Updated)
                                         </td>
                                         <td>
-                                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                            @Html.ActionLink("Details", "Details", new { id = item.Id })
+                                            @Html.ActionLink("Edit", "Edit", new { id = item.ProjectId }) |
+                                            @Html.ActionLink("Details", "Details", new { id = item.ProjectId })
                                         </td>
                                     </tr>
                                 }
@@ -112,13 +112,13 @@
                                 {
                                     <tr>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Name)
+                                            @Html.DisplayFor(modelItem => item.ProjectName)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.ProjectManagerId)
+                                            @Html.DisplayFor(modelItem => item.ProjectManager)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Tickets.Count)
+                                            @Html.DisplayFor(modelItem => item.TicketCount)
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Created)
@@ -127,8 +127,8 @@
                                             @Html.DisplayFor(modelItem => item.Updated)
                                         </td>
                                         <td>
-                                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                            @Html.ActionLink("Details", "Details", new { id = item.Id })
+                                            @Html.ActionLink("Edit", "Edit", new { id = item.ProjectId }) |
+                                            @Html.ActionLink("Details", "Details", new { id = item.ProjectId })
                                         </td>
                                     </tr>
                                 }
