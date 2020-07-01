@@ -32,14 +32,21 @@
                                     </div>
                                 </div>
                                 
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.DeveloperId, "Developer", htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        @Html.DropDownList("DeveloperId", null, "Select A Developer", htmlAttributes: new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.DeveloperId, "", new { @class = "text-danger" })
+                                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                                {
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DeveloperId, "Developer", htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.DropDownList("DeveloperId", null, "Select A Developer", htmlAttributes: new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.DeveloperId, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
-                                </div>
-                                
+                                }
+                                else
+                                {
+                                    @Html.Hidden("DeveloperId", Model.DeveloperId.SelectedValue)
+                                }
+
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.TicketPriorityId, "TicketPriorityId", htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-10">

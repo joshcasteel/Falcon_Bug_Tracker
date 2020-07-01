@@ -30,9 +30,9 @@ namespace Falcon_Bug_Tracker.Controllers
         {
             var userId = User.Identity.GetUserId();
             var userNotifications = db.TicketNotifications.Where(t => t.RecipientId == userId);
-            foreach(var notificiation in userNotifications)
+            foreach(var notification in userNotifications)
             {
-                notificiation.IsRead = true;
+                notification.IsRead = true;
             }
             db.SaveChanges();
             return Redirect(Request.UrlReferrer.ToString());

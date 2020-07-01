@@ -287,7 +287,7 @@ namespace Falcon_Bug_Tracker.Controllers
                 return RedirectToAction("Index", "Projects");
             }
 
-            //instantiate view model and p
+            //instantiate, populate and pass the view model to the view
             var projectEdit = new ProjectEditVM();
             projectEdit.Project = project;
             var pmUsers= userHelper.UsersInRole("ProjectManager");
@@ -304,17 +304,13 @@ namespace Falcon_Bug_Tracker.Controllers
         public ActionResult Edit(ProjectEditVM model, string projectManagerId)
         {
             Project project = db.Projects.Find(model.Project.Id);
-            if (ModelState.IsValid)
-            {
-                project.Name = model.Project.Name;
-                project.Description = model.Project.Description;
-                project.ProjectManagerId = projectManagerId;
-                project.IsArchived = model.Project.IsArchived;
-                project.Updated = DateTime.Now;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(project);
+            project.Name = model.Project.Name;
+            project.Description = model.Project.Description;
+            project.ProjectManagerId = projectManagerId;
+            project.IsArchived = model.Project.IsArchived;
+            project.Updated = DateTime.Now;
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         // GET: Projects/Delete/5
