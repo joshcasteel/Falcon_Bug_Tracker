@@ -126,7 +126,7 @@ namespace Falcon_Bug_Tracker.Controllers
             var userId = User.Identity.GetUserId();
 
             
-
+            //project managers and admins see all projects and projects assigned to them
             if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
             {
                 
@@ -137,7 +137,7 @@ namespace Falcon_Bug_Tracker.Controllers
                         ProjectId = project.Id,
                         ProjectName = project.Name,
                         ProjectDescription = project.Description,
-                        ProjectManager = db.Users.Find(project.ProjectManagerId).FullName,
+                        ProjectManager = project.ProjectManagerId.Any() ? db.Users.Find(project.ProjectManagerId).FullName : "",
                         Created = project.Created,
                         Updated = project.Updated,
                         TicketCount = project.Tickets.Count()
@@ -152,7 +152,7 @@ namespace Falcon_Bug_Tracker.Controllers
                         ProjectId = project.Id,
                         ProjectName = project.Name,
                         ProjectDescription = project.Description,
-                        ProjectManager = db.Users.Find(project.ProjectManagerId).FullName,
+                        ProjectManager = project.ProjectManagerId.Any() ? db.Users.Find(project.ProjectManagerId).FullName : "",
                         Created = project.Created,
                         Updated = project.Updated,
                         TicketCount = project.Tickets.Count()
@@ -162,6 +162,7 @@ namespace Falcon_Bug_Tracker.Controllers
                 return View(projectIndex);
             }
 
+            //submitters and developers only see projects assigned to them
             foreach (var project in projHelper.ListUserProjects(userId).ToList())
             {
                 projectIndex.MyProjects.Add(new ProjectDetailsVM
@@ -169,7 +170,7 @@ namespace Falcon_Bug_Tracker.Controllers
                     ProjectId = project.Id,
                     ProjectName = project.Name,
                     ProjectDescription = project.Description,
-                    ProjectManager = db.Users.Find(project.ProjectManagerId).FullName,
+                    ProjectManager = project.ProjectManagerId.Any() ? db.Users.Find(project.ProjectManagerId).FullName : "",
                     Created = project.Created,
                     Updated = project.Updated,
                     TicketCount = project.Tickets.Count()
@@ -183,15 +184,23 @@ namespace Falcon_Bug_Tracker.Controllers
         // GET: Projects/Details/5
         public ActionResult Details(int? id)
         {
+            //if the id is missing, redirect and alert the user
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                TempData["Alert"] = "Please provide a project id";
+                return RedirectToAction("Index");
             }
+
+            //create an instance of the specified project
             Project project = db.Projects.Find(id);
+            //ensure it exists
             if (project == null)
             {
-                return HttpNotFound();
+                TempData["Alert"] = "Project not found";
+                return RedirectToAction("Index");
             }
+
+            //instantiate view model
             var projectDetailsVM = new ProjectDetailsVM();
             projectDetailsVM = new ProjectDetailsVM
             {
@@ -200,11 +209,10 @@ namespace Falcon_Bug_Tracker.Controllers
                 ProjectDescription = project.Description,
                 Created = project.Created,
                 Updated = project.Updated,
+                ProjectManager = project.ProjectManagerId.Any() ? db.Users.Find(project.ProjectManagerId).FullName : ""
             };
-            if (project.ProjectManagerId != null)
-            {
-                projectDetailsVM.ProjectManager = db.Users.Find(project.ProjectManagerId).FullName;
-            }
+
+            //List users on project
             var projUsers = projHelper.UsersOnProject(project.Id);
             foreach(var user in projUsers)
             {
