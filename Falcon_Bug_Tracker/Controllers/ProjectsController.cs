@@ -113,7 +113,7 @@ namespace Falcon_Bug_Tracker.Controllers
                 projHelper.RemoveUserFromProject(userId, projectId);
                 return RedirectToAction("ManageProjectAssignments");
             }
-            TempData["Alert"] = "You are not authorized to assign users";
+            TempData["Alert"] = "You are not authorized to change user assignments";
             return RedirectToAction("Index", "Projects");
         }
 
@@ -269,20 +269,25 @@ namespace Falcon_Bug_Tracker.Controllers
         // GET: Projects/Edit/5
         public ActionResult Edit(int? id)
         {
+            //validation area
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                TempData["Alert"] = "Please provide a project id";
+                return RedirectToAction("Index");
             }
             Project project = db.Projects.Find(id);
             if (project == null)
             {
-                return HttpNotFound();
+                TempData["Alert"] = "Project not found";
+                return RedirectToAction("Index");
             }
             if(User.IsInRole("Submitter") || User.IsInRole("Developer"))
             {
                 TempData["Alert"] = "You are not authorized to edit projects";
                 return RedirectToAction("Index", "Projects");
             }
+
+            //instantiate view model and p
             var projectEdit = new ProjectEditVM();
             projectEdit.Project = project;
             var pmUsers= userHelper.UsersInRole("ProjectManager");
